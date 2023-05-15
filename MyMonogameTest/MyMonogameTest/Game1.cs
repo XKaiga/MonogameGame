@@ -1,69 +1,141 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
+using MyMonogameTest.Sprites;
+using MyMonogameTest.Models;
+using System.Runtime.ConstrainedExecution;
+using MyMonogameTest.Sprites.World;
 
 namespace MyMonogameTest
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        Texture2D plataforma;
-        Player player;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
-        private int totalPontos;
 
+        public static int ScreenWidth;
+        public static int ScreenHeight;
+
+        private List<Sprite> _sprites;
+
+        public Texture2D playerTexStart; 
+        public Texture2D plataformTex;
+
+        public int totalScore;
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height; //pega altura do pc atual i think
-            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width; //pega largura do pc atual i think
-            base.Window.IsBorderless = true;
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-        }
 
+            this.Window.AllowUserResizing = true;
+            this.Window.Title = "Octocat";
+
+            ScreenWidth = graphics.PreferredBackBufferWidth;
+            ScreenHeight = graphics.PreferredBackBufferHeight;
+
+            //graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height; //pega altura do pc atual i think
+            //graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width; //pega largura do pc atual i think
+            //base.Window.IsBorderless = true;
+            graphics.ApplyChanges();
+        }
 
         protected override void Initialize()
         {
-            player = new Player(this, new Point(100, 100));
-            // TODO: Add your initialization logic here
-
+            Input.UpMove = new Keys[] { Keys.Up, Keys.W};
+            Input.DownMove = new Keys[] { Keys.Down, Keys.S};
+            Input.LeftMove = new Keys[] { Keys.Left, Keys.A};
+            Input.RightMove = new Keys[] { Keys.Right, Keys.D};
+            Input.Fight = new Keys[] { Keys.D4, Keys.U};
+            Input.Portal = new Keys[] { Keys.D1, Keys.P};
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            plataforma = Content.Load<Texture2D>("plataforma_rosa");
-            spriteFont = Content.Load<SpriteFont>("File");
-            player.LoadContents();
+            LoadStartContent();
 
-            // TODO: use this.Content to load your game content here
+            plataformTex = Content.Load<Texture2D>("plataforma_rosa");
+
+            LoadSprites();
+
+            foreach (var sprite in _sprites)
+                sprite.LoadContent();
+        }
+
+        private void LoadStartContent()
+        {
+            //to draw
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //text
+            spriteFont = Content.Load<SpriteFont>("File");
+
+            //create a texture to start the player
+            playerTexStart = Content.Load<Texture2D>("parado_1");
+        }
+
+        private void LoadSprites()
+        {
+            //all "objects"
+            _sprites = new List<Sprite>()
+            {
+                //create Player
+                new Player(playerTexStart, this){},
+                new Plataform(plataformTex, new Vector2(300,200) ,300, 100){}
+            };
         }
 
         protected override void Update(GameTime gameTime)
         {
+            //clica para sair do jogo
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            player.Update(gameTime);
 
-            // TODO: Add your update logic here
+            //update all sprites and get sprites to be removed
+            List<Sprite> spritesToRemove = new List<Sprite>();
+            foreach (var sprite in _sprites)
+            {
+                //get sprites to be removed
+                if (sprite.IsRemoved)
+                {
+                    spritesToRemove.Add(sprite);
+                    continue;
+                }
+                //update all sprites
+                sprite.Update(gameTime, _sprites);
+            }
 
             base.Update(gameTime);
+
+            //remove "dead" sprites
+            foreach (Sprite spr in spritesToRemove)
+                _sprites.Remove(spr);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
-            player.Draw(_spriteBatch);
-            //_spriteBatch.Draw(plataforma, new Rectangle(0, 0, 200, 200), Color.White);
-            _spriteBatch.DrawString(spriteFont, totalPontos + " / 10 Pontos", new Vector2(300, 300), Color.Black);
-            _spriteBatch.End();
-            // TODO: Add your drawing code here
+
+            spriteBatch.Begin();
+
+            foreach (var sprite in _sprites)
+                sprite.Draw(spriteBatch);
+
+            foreach (var spr in _sprites)
+                if (spr is Player)
+                {
+                    spriteBatch.DrawString(spriteFont, "   Vidas: "+(spr.Health).ToString(), new Vector2(0, 10), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "   "+totalScore + " / 10 Pontos", new Vector2(0, 32), Color.Black);
+                }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
