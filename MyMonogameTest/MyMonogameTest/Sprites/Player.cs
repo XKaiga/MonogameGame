@@ -9,6 +9,8 @@ using MyMonogameTest.Sprites;
 using MyMonogameTest.Models;
 using System.Reflection.Metadata;
 using MyMonogameTest.Sprites.World;
+using System.Diagnostics.SymbolStore;
+using System.Threading;
 
 enum AnimationState
 {
@@ -19,24 +21,49 @@ namespace MyMonogameTest.Sprites
 {
     class Player : Sprite
     {
+        public new KeyboardState _currentKey;
+        public new KeyboardState _previousKey;
+
         private Game1 game;
+
+        private Vector2 previousPosition = new Vector2(100, 100);
+
+        #region PlayerWeapon
+
+        private Texture2D weaponTex;
+        private int weaponDamage = 3;
+
+        // Define a TimeSpan representing the minimum time between shots
+        TimeSpan timeBetweenShots = TimeSpan.FromSeconds(0.13);
+
+        // Define a TimeSpan variable to keep track of the time since the last shot was fired
+        TimeSpan timeSinceLastShot = TimeSpan.Zero;
+
+        #endregion
+
+        #region Animation
 
         private AnimationState currentState = AnimationState.Parado;
         private int currentFrame = 0;
-        private int delta = 0;
 
+        //time passed between animations
         private float timer;
+
+        //fps, frames per second
         private float interval = 0;
 
-        public bool isDead
-        {
-            get => IsRemoved = Health <= 0;
-        }
+        #endregion
+
+        // Before changing animation, waits to finish current static animation
+        private bool inStaticAnimation = false;
+
+        // Move the player based on input
+        Vector2 movement;
 
         public Player(Texture2D texture, Game1 game) : base(texture)
         {
             this.game = game;
-            Speed = 5f;
+            Speed = 450f;
             Health = 10;
             Position = new Vector2(100, 100);
         }
@@ -77,12 +104,13 @@ namespace MyMonogameTest.Sprites
                     game.Content.Load<Texture2D>("portal_6"),
                     game.Content.Load<Texture2D>("portal_7")
             };
+
+            weaponTex = game.Content.Load<Texture2D>("yoyo");
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
         {
-            delta = 0;
-            Move(); //Attack & Powers
+            Move(gameTime, spritesToAdd);
 
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer > interval)
@@ -93,7 +121,11 @@ namespace MyMonogameTest.Sprites
                 timer = 0f;
             }
 
-            if (isDead)
+            //static animation finished
+            if (currentFrame == 0)
+                inStaticAnimation = false;
+
+            if (IsRemoved)
                 return;
 
             foreach (var sprite in sprites)
@@ -120,54 +152,99 @@ namespace MyMonogameTest.Sprites
                         else
                             // Move the player left or right, depending on which side of the rectangle the collision occurred
                             if (this.Position.X < sprite.Position.X)
-                                this.Position.X -= overlap.Width;
-                            else
-                                this.Position.X += overlap.Width;
+                            this.Position.X -= overlap.Width;
+                        else
+                            this.Position.X += overlap.Width;
                     }
                 }
             }
 
         }
 
-        public void Move()
+        private void Move(GameTime gameTime, List<Sprite> spritesToAdd)
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
 
+            // Move the player based on input
+            movement = new Vector2(0, 0);
+
             //Up Movement
-            if (Input.KeyPressed(Keys.Up))
+            if (Input.KeyPressed(Keys.Up, _previousKey, _currentKey))
             {
-                Position.Y -= Speed;
-                ChangeAnimationState(AnimationState.Movimento);
+                movement.Y -= 1.0f;
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
             }
 
             //Down Movement
-            if (Input.KeyPressed(Keys.Down))
+            if (Input.KeyPressed(Keys.Down, _previousKey, _currentKey))
             {
-                Position.Y += Speed;
-                ChangeAnimationState(AnimationState.Movimento);            
+                movement.Y += 1.0f;
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
             }
 
             //Left Movement
-            if (Input.KeyPressed(Keys.Left))
+            if (Input.KeyPressed(Keys.Left, _previousKey, _currentKey))
             {
-                Position.X -= Speed;
-                ChangeAnimationState(AnimationState.Movimento);
+                movement.X -= 1.0f;
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
             }
 
             //Right Movement
-            if (Input.KeyPressed(Keys.Right))
+            if (Input.KeyPressed(Keys.Right, _previousKey, _currentKey))
             {
-                Position.X += Speed;
-                ChangeAnimationState(AnimationState.Movimento);
+                movement.X += 1.0f;
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
             }
 
-            //Not Moving
-            if (delta == 0)
+            //Moving?
+            if (movement != Vector2.Zero)
+            {
+                //ensure that the movement vector has a length of 1
+                movement.Normalize();
+                Position += movement * Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else if (!inStaticAnimation)
                 ChangeAnimationState(AnimationState.Parado);
 
             // Keep the sprite on the screen
             Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(Game1.ScreenWidth - this.Rectangle.Width, Game1.ScreenHeight - this.Rectangle.Height));
+
+
+            //Fight Animation
+            if (Input.KeyPressed(Keys.F, _previousKey, _currentKey) && timeSinceLastShot >= timeBetweenShots)
+            {
+                spritesToAdd.Add(new Weapon(weaponTex, this, weaponDamage, GetFacingDirection()));
+                ChangeAnimationState(AnimationState.Lutar);
+
+                // Reset the time since the last shot was fired
+                timeSinceLastShot = TimeSpan.Zero;
+
+                //is in a static animation
+                inStaticAnimation = true;
+            }
+            else if (timeSinceLastShot < timeBetweenShots)
+                timeSinceLastShot += gameTime.ElapsedGameTime; //Increment the time since the last shot was fired
+        }
+
+        private Vector2 GetFacingDirection()
+        {
+            // In the player's update method
+            Vector2 currentPosition = Position;
+            Vector2 direction = currentPosition - previousPosition;
+            if (direction != Vector2.Zero)
+                direction.Normalize();
+
+            ////see if player is still
+            //isStill = currentPosition == previousPosition;
+
+            // Store the current player position as the previous position for the next
+            previousPosition = currentPosition;
+            return movement == Vector2.Zero ? new Vector2(1, 0) : direction;
         }
 
         private void ChangeAnimationState(AnimationState animationState)
@@ -182,7 +259,7 @@ namespace MyMonogameTest.Sprites
                     interval = 167f;
                     break;
                 case AnimationState.Lutar:
-                    interval = 167f;
+                    interval = 41.75f;
                     break;
                 case AnimationState.Portal:
                     interval = 143f;
@@ -193,9 +270,8 @@ namespace MyMonogameTest.Sprites
             if (currentState != animationState)
                 currentFrame = 0;
 
-            //change animation state and delta
+            //change animation state
             currentState = animationState;
-            delta = (int)animationState;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

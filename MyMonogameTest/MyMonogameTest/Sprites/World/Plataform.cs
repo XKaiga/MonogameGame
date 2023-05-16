@@ -25,7 +25,7 @@ namespace MyMonogameTest.Sprites.World
             this.height = height;
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
         {
         }
 

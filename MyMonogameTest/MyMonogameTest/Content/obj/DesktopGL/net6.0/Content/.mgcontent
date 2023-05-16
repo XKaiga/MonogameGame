@@ -28,8 +28,10 @@
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_5.png</File>
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_6.png</File>
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_7.png</File>
+    <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/yoyo.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

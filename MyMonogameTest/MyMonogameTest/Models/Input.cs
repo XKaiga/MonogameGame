@@ -17,7 +17,7 @@ namespace MyMonogameTest.Models
         public static Keys[] Fight;
         public static Keys[] Portal;
 
-        public static bool KeyPressed(Keys key)
+        public static bool KeyPressed(Keys key, KeyboardState previousKey, KeyboardState currentKey)
         {
             switch (key)
             {
@@ -39,6 +39,11 @@ namespace MyMonogameTest.Models
                 case Keys.Right:
                     for (int i = 0; i < Input.RightMove.Length; i++)
                         if (Keyboard.GetState().IsKeyDown(Input.RightMove[i]))
+                            return true;
+                    break;
+                case Keys.F:
+                    for (int i = 0; i < Input.Fight.Length; i++)
+                        if (previousKey.IsKeyDown(Input.Fight[i]) && currentKey.IsKeyUp(Input.Fight[i]))
                             return true;
                     break;
             }

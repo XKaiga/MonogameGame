@@ -21,10 +21,15 @@ namespace MyMonogameTest.Sprites
         public Vector2 Origin;
         public float Speed = 0f;
 
-        private int health;
+        private int health = -1;
         public int Health { get => this.health; set { this.health = value < 0 ? 0 : value; } }
 
-        public bool IsRemoved = false;
+        private bool isRemoved = false;
+        public bool IsRemoved
+        {
+            get => isRemoved || Health == 0;
+            set { isRemoved = value; }
+        }
 
         public Sprite Parent;
 
@@ -41,7 +46,7 @@ namespace MyMonogameTest.Sprites
             get
             {
                 if (_texture != null)
-                    return rectangle.IsEmpty? new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height) : rectangle;
+                    return rectangle.IsEmpty ? new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height) : rectangle;
                 throw new Exception("Unknown sprite");
             }
             set { rectangle = value; }
@@ -51,7 +56,7 @@ namespace MyMonogameTest.Sprites
         {
         }
 
-        public virtual void Update(GameTime gameTime, List<Sprite> sprite)
+        public virtual void Update(GameTime gameTime, List<Sprite> sprite, List<Sprite> spritesToAdd)
         {
         }
 

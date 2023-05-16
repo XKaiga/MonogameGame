@@ -48,3 +48,4 @@ D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\obj\Debug\net6.0\MyMo
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\obj\Debug\net6.0\MyMonogameTest.genruntimeconfig.cache
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\obj\Debug\net6.0\ref\MyMonogameTest.dll
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\a.xnb
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\yoyo.xnb

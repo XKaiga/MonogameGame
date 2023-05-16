@@ -98,18 +98,16 @@ namespace MyMonogameTest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //update all sprites and get sprites to be removed
+            //update all sprites and get sprites to be removed and sprites to be added
             List<Sprite> spritesToRemove = new List<Sprite>();
+            List<Sprite> spritesToAdd = new List<Sprite>();
             foreach (var sprite in _sprites)
             {
+                //update all sprites
+                sprite.Update(gameTime, _sprites, spritesToAdd);
                 //get sprites to be removed
                 if (sprite.IsRemoved)
-                {
                     spritesToRemove.Add(sprite);
-                    continue;
-                }
-                //update all sprites
-                sprite.Update(gameTime, _sprites);
             }
 
             base.Update(gameTime);
@@ -117,6 +115,9 @@ namespace MyMonogameTest
             //remove "dead" sprites
             foreach (Sprite spr in spritesToRemove)
                 _sprites.Remove(spr);
+
+            //add new sprites
+            _sprites.AddRange(spritesToAdd);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -129,10 +130,16 @@ namespace MyMonogameTest
                 sprite.Draw(spriteBatch);
 
             foreach (var spr in _sprites)
-                if (spr is Player)
+                if (spr is Player player)
                 {
                     spriteBatch.DrawString(spriteFont, "   Vidas: "+(spr.Health).ToString(), new Vector2(0, 10), Color.Black);
                     spriteBatch.DrawString(spriteFont, "   "+totalScore + " / 10 Pontos", new Vector2(0, 32), Color.Black);
+                    //spriteBatch.DrawString(spriteFont, player.GetFacingDirection().ToString(), new Vector2(0, 54), Color.Black);
+                }
+                else if(spr is Weapon weapon)
+                {
+                    //spriteBatch.DrawString(spriteFont, weapon.Position.ToString(), new Vector2(0, 54), Color.Black);
+                    //spriteBatch.DrawString(spriteFont, "   " + totalScore + " / 10 Pontos", new Vector2(0, 76), Color.Black);
                 }
 
             spriteBatch.End();
