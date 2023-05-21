@@ -11,7 +11,8 @@ A game made in Monogame
         options menu(input box, buttons[exit/apply/cancel]);
         help menu & help buttom(decide where to put it: main menu or options menu);
         level menu(various planets, each is a level);
-        tela final(buttons[main menu])
+        tela final(buttons[main menu]);
+	tela de creditos;
     music(which music(a loop music) and maybe how to implement(it's easy i think));
     Level Design(onde é que tem plataformas e etc..., e onde os poderes estão escondidos, basicamente os mapas dos niveis);
 
@@ -25,13 +26,14 @@ A game made in Monogame
 
 
 # To Do:
+	[sistema de highscore];
 	movimentar personagem com rato;
-	camâra focada no player;
+	[camâra focada no player];
 	Class Level Manager: para fazer o jogador ir de nivel a nivel;
 	sistema de save para 'guardar e sair do jogo';	
 	gravity & Player jump => plataform game movement basically (and extra i think: plataformas que se mexem);
 	enemy ai;
-	powers:
+	[powers]:
 		buble shield(position = player_position, tranparency = ?%, collision with enemyWeapon);
 		portal(idea: can only have two portals on the map, code: if exists 2 portals when player touches one teleports to the other(player.position = ?);
 		air(pushes enemy, code: if in collision with enemy, dependendo de que lado vem manda y ou x para -valor);
