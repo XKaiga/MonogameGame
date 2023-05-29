@@ -9,24 +9,23 @@ using MyMonogameTest.Sprites;
 using MyMonogameTest.Models;
 using System.Runtime.ConstrainedExecution;
 using MyMonogameTest.Sprites.World;
+using MonoGame.Extended.Screens;
+using MyMonogameTest.Levels;
+using MonoGame.Extended.Screens.Transitions;
 
 namespace MyMonogameTest
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private SpriteFont spriteFont;
 
         public static int ScreenWidth;
         public static int ScreenHeight;
 
-        private List<Sprite> _sprites;
-
-        public Texture2D playerTexStart; 
-        public Texture2D plataformTex;
-
         public int totalScore;
+
+        private ScreenManager screenManager;
 
         public Game1()
         {
@@ -40,6 +39,9 @@ namespace MyMonogameTest
             ScreenWidth = graphics.PreferredBackBufferWidth;
             ScreenHeight = graphics.PreferredBackBufferHeight;
 
+            screenManager = new ScreenManager();
+            Components.Add(screenManager);
+
             //graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height; //pega altura do pc atual i think
             //graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width; //pega largura do pc atual i think
             //base.Window.IsBorderless = true;
@@ -48,76 +50,69 @@ namespace MyMonogameTest
 
         protected override void Initialize()
         {
-            Input.UpMove = new Keys[] { Keys.Up, Keys.W};
-            Input.DownMove = new Keys[] { Keys.Down, Keys.S};
-            Input.LeftMove = new Keys[] { Keys.Left, Keys.A};
-            Input.RightMove = new Keys[] { Keys.Right, Keys.D};
-            Input.Fight = new Keys[] { Keys.D4, Keys.U};
-            Input.Portal = new Keys[] { Keys.D1, Keys.P};
+            Input.UpMove = new Keys[] { Keys.Up, Keys.W };
+            Input.DownMove = new Keys[] { Keys.Down, Keys.S };
+            Input.LeftMove = new Keys[] { Keys.Left, Keys.A };
+            Input.RightMove = new Keys[] { Keys.Right, Keys.D };
+            Input.Fight = new Keys[] { Keys.D4, Keys.U };
+            Input.Portal = new Keys[] { Keys.D1, Keys.P };
             base.Initialize();
+            LoadMenu();
         }
 
         protected override void LoadContent()
         {
-            LoadStartContent();
-
-            plataformTex = Content.Load<Texture2D>("plataforma_rosa");
-
-            LoadSprites();
-
-            foreach (var sprite in _sprites)
-                sprite.LoadContent();
-        }
-
-        private void LoadStartContent()
-        {
             //to draw
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            //text
-            spriteFont = Content.Load<SpriteFont>("File");
-
-            //create a texture to start the player
-            playerTexStart = Content.Load<Texture2D>("parado_1");
         }
 
-        private void LoadSprites()
+        private void LoadMenu()
         {
-            //all "objects"
-            _sprites = new List<Sprite>()
-            {
-                //create Player
-                new Player(playerTexStart, this){},
-                new Plataform(plataformTex, new Vector2(300,200) ,300, 100){}
-            };
+            screenManager.LoadScreen(new Menu(this), new FadeTransition(GraphicsDevice, Color.White));
         }
 
+        private void LoadLevel1()
+        {
+            screenManager.LoadScreen(new Level1(this, spriteBatch), new FadeTransition(GraphicsDevice, Color.White));
+        }
+
+        private void LoadLevel2()
+        {
+            screenManager.LoadScreen(new Level2(this, spriteBatch), new FadeTransition(GraphicsDevice, Color.White));
+        }
+
+        private void LoadLevel3()
+        {
+            screenManager.LoadScreen(new Level3(this), new FadeTransition(GraphicsDevice, Color.White));
+        }
+
+        private void LoadLevel4()
+        {
+            screenManager.LoadScreen(new Level4(this), new FadeTransition(GraphicsDevice, Color.White));
+        }
+
+        private void LoadLevel5()
+        {
+            screenManager.LoadScreen(new Level5(this), new FadeTransition(GraphicsDevice, Color.White));
+        }
         protected override void Update(GameTime gameTime)
         {
             //clica para sair do jogo
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            //update all sprites and get sprites to be removed and sprites to be added
-            List<Sprite> spritesToRemove = new List<Sprite>();
-            List<Sprite> spritesToAdd = new List<Sprite>();
-            foreach (var sprite in _sprites)
+            KeyboardState keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Keys.H))
             {
-                //update all sprites
-                sprite.Update(gameTime, _sprites, spritesToAdd);
-                //get sprites to be removed
-                if (sprite.IsRemoved)
-                    spritesToRemove.Add(sprite);
+                LoadLevel1();
             }
+            if (keyboardState.IsKeyDown(Keys.J))
+            {
+                LoadLevel2();
+            }
+            //update all sprites and get sprites to be removed and sprites to be added
 
             base.Update(gameTime);
 
-            //remove "dead" sprites
-            foreach (Sprite spr in spritesToRemove)
-                _sprites.Remove(spr);
-
-            //add new sprites
-            _sprites.AddRange(spritesToAdd);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -125,23 +120,6 @@ namespace MyMonogameTest
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-
-            foreach (var sprite in _sprites)
-                sprite.Draw(spriteBatch);
-
-            foreach (var spr in _sprites)
-                if (spr is Player player)
-                {
-                    spriteBatch.DrawString(spriteFont, "   Vidas: "+(spr.Health).ToString(), new Vector2(0, 10), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "   "+totalScore + " / 10 Pontos", new Vector2(0, 32), Color.Black);
-                    //spriteBatch.DrawString(spriteFont, player.GetFacingDirection().ToString(), new Vector2(0, 54), Color.Black);
-                }
-                else if(spr is Weapon weapon)
-                {
-                    //spriteBatch.DrawString(spriteFont, weapon.Position.ToString(), new Vector2(0, 54), Color.Black);
-                    //spriteBatch.DrawString(spriteFont, "   " + totalScore + " / 10 Pontos", new Vector2(0, 76), Color.Black);
-                }
-
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -11,6 +11,8 @@ using System.Reflection.Metadata;
 using MyMonogameTest.Sprites.World;
 using System.Diagnostics.SymbolStore;
 using System.Threading;
+using MyMonogameTest.Levels;
+using MonoGame.Extended.Timers;
 
 enum AnimationState
 {
@@ -27,6 +29,8 @@ namespace MyMonogameTest.Sprites
         private Game1 game;
 
         private Vector2 previousPosition = new Vector2(100, 100);
+
+        public Texture2D playerTexStart;
 
         #region PlayerWeapon
 
@@ -63,8 +67,9 @@ namespace MyMonogameTest.Sprites
         public Player(Texture2D texture, Game1 game) : base(texture)
         {
             this.game = game;
+            playerTexStart = texture;
             Speed = 450f;
-            Health = 10;
+            Health = 2;
             Position = new Vector2(100, 100);
         }
 
@@ -73,7 +78,7 @@ namespace MyMonogameTest.Sprites
             spritesAnimation = new Texture2D[4][];
             spritesAnimation[(int)AnimationState.Parado] = new[]
             {
-                     game.playerTexStart,
+                     playerTexStart,
                      game.Content.Load<Texture2D>("parado_2")
             };
             spritesAnimation[(int)AnimationState.Movimento] = new[]
@@ -110,7 +115,9 @@ namespace MyMonogameTest.Sprites
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
         {
-            Move(gameTime, spritesToAdd);
+
+                  
+            
 
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer > interval)
@@ -161,7 +168,7 @@ namespace MyMonogameTest.Sprites
 
         }
 
-        private void Move(GameTime gameTime, List<Sprite> spritesToAdd)
+        public void Move(GameTime gameTime, List<Sprite> spritesToAdd)
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
@@ -229,6 +236,40 @@ namespace MyMonogameTest.Sprites
             }
             else if (timeSinceLastShot < timeBetweenShots)
                 timeSinceLastShot += gameTime.ElapsedGameTime; //Increment the time since the last shot was fired
+        }
+
+        public void MouseMove()
+        {
+            MouseState mouseState = Mouse.GetState();
+            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+            Vector2 direction = mousePosition - Position;
+            direction.Normalize(); // Normaliza o vetor para ter comprimento 1
+
+            // Define a velocidade do jogador
+            float playerSpeed = 5f;
+
+
+
+            if (movement != Vector2.Zero || mouseState.LeftButton == ButtonState.Pressed)
+            {
+                // Move o jogador na direção do mouse
+                Position += direction * playerSpeed;
+
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
+
+            }
+            if (movement != Vector2.Zero)
+            {
+                //ensure that the movement vector has a length of 1
+                movement.Normalize();
+            }
+            else if (!inStaticAnimation)
+                ChangeAnimationState(AnimationState.Parado);
+
+            Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(Game1.ScreenWidth - this.Rectangle.Width, Game1.ScreenHeight - this.Rectangle.Height));
+
+
         }
 
         private Vector2 GetFacingDirection()

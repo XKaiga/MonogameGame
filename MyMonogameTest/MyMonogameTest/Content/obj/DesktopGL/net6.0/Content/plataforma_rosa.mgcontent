@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/plataforma_rosa.png</SourceFile>
-  <SourceTime>2023-05-15T12:46:37.6669955+01:00</SourceTime>
-  <DestFile>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/bin/DesktopGL/Content/plataforma_rosa.xnb</DestFile>
-  <DestTime>2023-05-15T12:46:40.4671028+01:00</DestTime>
+  <SourceFile>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/plataforma_rosa.png</SourceFile>
+  <SourceTime>2023-05-16T16:57:54.500019+01:00</SourceTime>
+  <DestFile>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/bin/DesktopGL/Content/plataforma_rosa.xnb</DestFile>
+  <DestTime>2023-05-18T16:27:33.0940097+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T12:44:56+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

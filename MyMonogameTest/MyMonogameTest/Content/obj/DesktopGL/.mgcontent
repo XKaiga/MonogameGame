@@ -4,32 +4,36 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/64x64.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/File.spritefont</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/lutar_1.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/lutar_2.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/lutar_3.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/lutar_4.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/lutar_5.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/lutar_6.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/movimento_1.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/movimento_2.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/movimento_3.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/movimento_4.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/movimento_5.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/movimento_6.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/parado_1.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/parado_2.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/plataforma_rosa.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/portal_1.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/portal_2.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/portal_3.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/portal_4.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/portal_5.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/portal_6.png</File>
-    <File>C:/Aulas/Técnicas/MyMonogameTest/MyMonogameTest/Content/portal_7.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/64x64.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/File.spritefont</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/lutar_1.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/lutar_2.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/lutar_3.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/lutar_4.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/lutar_5.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/lutar_6.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/movimento_1.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/movimento_2.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/movimento_3.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/movimento_4.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/movimento_5.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/movimento_6.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/parado_1.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/parado_2.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/plataforma_rosa.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_1.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_2.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_3.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_4.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_5.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_6.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_7.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/water_fall.png</File>
+    <File>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/yoyo.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

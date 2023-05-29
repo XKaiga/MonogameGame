@@ -32,7 +32,7 @@ namespace MyMonogameTest.Sprites
             velocity += direction * Speed;
 
             //scalling down
-            Rectangle = new Rectangle(Rectangle.X+ Parent.Rectangle.Width/2, Rectangle.Y + Parent.Rectangle.Height / 2, (int)(Rectangle.Width / 4.0f), (int)(Rectangle.Height / 4.0f));
+            Rectangle = new Rectangle(Rectangle.X + Parent.Rectangle.Width / 2, Rectangle.Y + Parent.Rectangle.Height / 2, (int)(Rectangle.Width / 4.0f), (int)(Rectangle.Height / 4.0f));
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
@@ -48,19 +48,16 @@ namespace MyMonogameTest.Sprites
                 // Colission
                 if (sprite.Rectangle.Intersects(this.Rectangle))
                 {
-                    if (sprite is Plataform)
-                    {
-                        if (sprite.Health > 0)
-                            sprite.Health -= damage;
-                        this.IsRemoved = true;
-                    }
+                    if (sprite.Health > 0)
+                        sprite.Health -= damage;
+                    this.IsRemoved = true;
                 }
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, new Rectangle((int)Position.X,(int)Position.Y, Rectangle.Width, Rectangle.Height), Color.White);
+            spriteBatch.Draw(_texture, new Rectangle((int)Position.X, (int)Position.Y, Rectangle.Width, Rectangle.Height), Color.White);
         }
     }
 }
