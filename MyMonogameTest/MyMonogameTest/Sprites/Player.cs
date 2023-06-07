@@ -19,29 +19,58 @@ enum AnimationState
     Parado, Movimento, Lutar, Portal
 }
 
+enum MouseMoveState
+{
+    Moving, Staying, breaking
+}
+
 namespace MyMonogameTest.Sprites
 {
     class Player : Sprite
     {
-        public new KeyboardState _currentKey;
-        public new KeyboardState _previousKey;
-
-        private Game1 game;
+        #region Movement
 
         private Vector2 previousPosition = new Vector2(100, 100);
 
+        public new KeyboardState _currentKey;
+        public new KeyboardState _previousKey;
+
+        private Vector2 direction;
+        private Vector2 movement;// Move the player based on input
+
+        #region Mouse
+
+        private bool mouseClicked = false;
+        public Vector2 mousePosition = Vector2.Zero;
+        public float distanceToTarget;
+        private MouseMoveState mouseMoveState = MouseMoveState.Staying;
+
+        public float breakSpeed;//speed in which player walks when breaking
+        public float breakSpd = 8f;//removes from breakSpeed until player stops
+        private float distanceToTargetBreak;
+
+        // Define a TimeSpan representing the minimum time between moves
+        TimeSpan timeBetweenMoves = TimeSpan.FromSeconds(0.5);
+        // Define a TimeSpan variable to keep track of the time since the last move was done
+        public TimeSpan timeSinceLastMove = TimeSpan.Zero;
+
+        #endregion
+
+        #endregion
+
+        private Game1 game;
+
         public Texture2D playerTexStart;
 
-        #region PlayerWeapon
+        #region Weapon
 
         private Texture2D weaponTex;
         private int weaponDamage = 3;
 
         // Define a TimeSpan representing the minimum time between shots
         TimeSpan timeBetweenShots = TimeSpan.FromSeconds(0.13);
-
         // Define a TimeSpan variable to keep track of the time since the last shot was fired
-        TimeSpan timeSinceLastShot = TimeSpan.Zero;
+        public TimeSpan timeSinceLastShot = TimeSpan.Zero;
 
         #endregion
 
@@ -61,16 +90,18 @@ namespace MyMonogameTest.Sprites
         // Before changing animation, waits to finish current static animation
         private bool inStaticAnimation = false;
 
-        // Move the player based on input
-        Vector2 movement;
-
         public Player(Texture2D texture, Game1 game) : base(texture)
         {
             this.game = game;
+
             playerTexStart = texture;
-            Speed = 450f;
-            Health = 2;
             Position = new Vector2(100, 100);
+
+            Health = 2;
+
+            Speed = 450f;
+            breakSpeed = Speed;
+            distanceToTargetBreak = game.level == 1 ? 100 : 58;
         }
 
         public override void LoadContent()
@@ -115,10 +146,6 @@ namespace MyMonogameTest.Sprites
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
         {
-
-                  
-            
-
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer > interval)
             {
@@ -218,14 +245,81 @@ namespace MyMonogameTest.Sprites
             else if (!inStaticAnimation)
                 ChangeAnimationState(AnimationState.Parado);
 
-            // Keep the sprite on the screen
-            Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(Game1.ScreenWidth - this.Rectangle.Width, Game1.ScreenHeight - this.Rectangle.Height));
+            Fight(gameTime, spritesToAdd, false);
+        }
 
+        public void MouseMove(GameTime gameTime, List<Sprite> spritesToAdd)
+        {
+            _previousKey = _currentKey;
+            _currentKey = Keyboard.GetState();
+
+            MouseState mouseState = Mouse.GetState();
+
+            //Time the movement, to see if player can or not make another move
+            if (mouseState.LeftButton == ButtonState.Pressed && timeSinceLastMove >= timeBetweenMoves)
+            {
+                // Reset the time since the last move was done
+                timeSinceLastMove = TimeSpan.Zero;
+                mouseClicked = true;
+            }
+            else if (timeSinceLastMove < timeBetweenMoves)
+                timeSinceLastMove += gameTime.ElapsedGameTime; //Increment the time since the last move was done
+
+            //define position / direction / moveState
+            if (mouseState.LeftButton == ButtonState.Released && mouseClicked)
+            {
+                mouseClicked = false;
+                ResetMouseMove();
+                mousePosition = new Vector2(mouseState.X, (game.level == 1 && mouseState.Y < 100) ? 100 : mouseState.Y);
+                direction = mousePosition - Position;
+                mouseMoveState = MouseMoveState.Moving;
+            }
+
+            //move the player
+            if (mouseMoveState == MouseMoveState.Moving && direction != Vector2.Zero)
+            {
+                direction.Normalize(); // Normaliza o vetor para ter comprimento 1
+                distanceToTarget = Vector2.Distance(Position, mousePosition);
+                Position += direction * Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
+            }
+
+            //starts to use the breaks
+            if ((distanceToTarget != 0 && distanceToTarget < distanceToTargetBreak && mouseMoveState != MouseMoveState.Staying) || mouseMoveState == MouseMoveState.breaking)
+            {
+                mouseMoveState = MouseMoveState.breaking;
+                Position += direction * breakSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                breakSpeed -= breakSpd;
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
+                if (breakSpeed < 1)
+                    mouseMoveState = MouseMoveState.Staying;
+            }
+
+            //stops the player
+            if (mouseMoveState == MouseMoveState.Staying && !inStaticAnimation)
+                ChangeAnimationState(AnimationState.Parado);
+
+            
+            Fight(gameTime, spritesToAdd, true);
+        }
+
+        private void ResetMouseMove()
+        {
+            breakSpeed = Speed;
+            direction = Vector2.Zero;
+        }
+
+        private void Fight(GameTime gameTime, List<Sprite> spritesToAdd, bool mouse)
+        {
+            // Keep the sprite on the screen
+            Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(game.ScreenWidth - this.Rectangle.Width, game.ScreenHeight - this.Rectangle.Height));
 
             //Fight Animation
             if (Input.KeyPressed(Keys.F, _previousKey, _currentKey) && timeSinceLastShot >= timeBetweenShots)
             {
-                spritesToAdd.Add(new Weapon(weaponTex, this, weaponDamage, GetFacingDirection()));
+                spritesToAdd.Add(new Weapon(weaponTex, this, weaponDamage, GetFacingDirection(mouse)));
                 ChangeAnimationState(AnimationState.Lutar);
 
                 // Reset the time since the last shot was fired
@@ -238,54 +332,26 @@ namespace MyMonogameTest.Sprites
                 timeSinceLastShot += gameTime.ElapsedGameTime; //Increment the time since the last shot was fired
         }
 
-        public void MouseMove()
-        {
-            MouseState mouseState = Mouse.GetState();
-            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-            Vector2 direction = mousePosition - Position;
-            direction.Normalize(); // Normaliza o vetor para ter comprimento 1
-
-            // Define a velocidade do jogador
-            float playerSpeed = 5f;
-
-
-
-            if (movement != Vector2.Zero || mouseState.LeftButton == ButtonState.Pressed)
-            {
-                // Move o jogador na direção do mouse
-                Position += direction * playerSpeed;
-
-                if (!inStaticAnimation)
-                    ChangeAnimationState(AnimationState.Movimento);
-
-            }
-            if (movement != Vector2.Zero)
-            {
-                //ensure that the movement vector has a length of 1
-                movement.Normalize();
-            }
-            else if (!inStaticAnimation)
-                ChangeAnimationState(AnimationState.Parado);
-
-            Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(Game1.ScreenWidth - this.Rectangle.Width, Game1.ScreenHeight - this.Rectangle.Height));
-
-
-        }
-
-        private Vector2 GetFacingDirection()
+        private Vector2 GetFacingDirection(bool withCursor)
         {
             // In the player's update method
             Vector2 currentPosition = Position;
-            Vector2 direction = currentPosition - previousPosition;
-            if (direction != Vector2.Zero)
-                direction.Normalize();
+            Vector2 direction = Vector2.Zero;
 
-            ////see if player is still
-            //isStill = currentPosition == previousPosition;
+            if (withCursor)
+                direction = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - currentPosition;
+            else
+            {
+                direction = currentPosition - previousPosition;
+                // Store the current player position as the previous position
+                previousPosition = currentPosition;
+            }
 
-            // Store the current player position as the previous position for the next
-            previousPosition = currentPosition;
-            return movement == Vector2.Zero ? new Vector2(1, 0) : direction;
+            if (direction == Vector2.Zero)
+                return new Vector2(1, 0);
+
+            direction.Normalize();
+            return direction;
         }
 
         private void ChangeAnimationState(AnimationState animationState)
@@ -317,7 +383,6 @@ namespace MyMonogameTest.Sprites
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(_texture, Position, Color.White);
             spriteBatch.Draw(spritesAnimation[(int)currentState][currentFrame], Position, Color.White);
         }
     }

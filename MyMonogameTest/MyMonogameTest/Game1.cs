@@ -12,6 +12,7 @@ using MyMonogameTest.Sprites.World;
 using MonoGame.Extended.Screens;
 using MyMonogameTest.Levels;
 using MonoGame.Extended.Screens.Transitions;
+using System.ComponentModel;
 
 namespace MyMonogameTest
 {
@@ -20,12 +21,15 @@ namespace MyMonogameTest
         public GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        public static int ScreenWidth;
-        public static int ScreenHeight;
+        public int ScreenWidth;
+        public int ScreenHeight;
 
         public int totalScore;
 
         private ScreenManager screenManager;
+
+        public int level = 1;
+        private bool hKeyPressed = false;
 
         public Game1()
         {
@@ -57,7 +61,8 @@ namespace MyMonogameTest
             Input.Fight = new Keys[] { Keys.D4, Keys.U };
             Input.Portal = new Keys[] { Keys.D1, Keys.P };
             base.Initialize();
-            LoadMenu();
+            //LoadMenu();
+            LoadLevel1();
         }
 
         protected override void LoadContent()
@@ -95,24 +100,45 @@ namespace MyMonogameTest
         {
             screenManager.LoadScreen(new Level5(this), new FadeTransition(GraphicsDevice, Color.White));
         }
+        
         protected override void Update(GameTime gameTime)
         {
             //clica para sair do jogo
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             KeyboardState keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.H))
-            {
-                LoadLevel1();
-            }
-            if (keyboardState.IsKeyDown(Keys.J))
-            {
-                LoadLevel2();
-            }
-            //update all sprites and get sprites to be removed and sprites to be added
+
+            if (keyboardState.IsKeyDown(Keys.H) && !hKeyPressed)
+                ChangeLevel();
+            else if (keyboardState.IsKeyUp(Keys.H))
+                hKeyPressed = false;
 
             base.Update(gameTime);
 
+        }
+
+        protected void ChangeLevel()
+        {
+            hKeyPressed = true;
+            level++;
+            switch (level)
+            {
+                case 1:
+                    LoadLevel1();
+                    break;
+                case 2:
+                    LoadLevel2();
+                    break;
+                case 3:
+                    LoadLevel3();
+                    break;
+                case 4:
+                    LoadLevel4();
+                    break;
+                case 5:
+                    LoadLevel5();
+                    break;
+            }
         }
 
         protected override void Draw(GameTime gameTime)

@@ -27,7 +27,6 @@ A game made in Monogame
 
 # To Do:
 	[sistema de highscore];
-	movimentar personagem com rato;
 	[camâra focada no player];
 	Class Level Manager: para fazer o jogador ir de nivel a nivel;
 	sistema de save para 'guardar e sair do jogo';	

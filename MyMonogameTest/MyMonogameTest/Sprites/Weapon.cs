@@ -42,7 +42,7 @@ namespace MyMonogameTest.Sprites
 
             foreach (var sprite in sprites)
             {
-                if (sprite is Player || sprite is Weapon)
+                if (sprite is Player || sprite is Weapon || sprite is Fundo)
                     continue;
 
                 // Colission
