@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/water_fall.png</SourceFile>
-  <SourceTime>2023-04-24T19:24:00.9522315+01:00</SourceTime>
-  <DestFile>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/bin/DesktopGL/Content/water_fall.xnb</DestFile>
-  <DestTime>2023-05-22T00:06:45.475214+01:00</DestTime>
+  <SourceFile>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/water_fall.png</SourceFile>
+  <SourceTime>2023-05-29T20:49:31.6255141+01:00</SourceTime>
+  <DestFile>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/bin/DesktopGL/Content/water_fall.xnb</DestFile>
+  <DestTime>2023-05-29T20:57:28.1256174+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T12:44:56+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

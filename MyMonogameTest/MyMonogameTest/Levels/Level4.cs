@@ -6,11 +6,12 @@ namespace MyMonogameTest.Levels
 {
     public class Level4 : GameScreen
     {
-        private new Game1 Game => (Game1)base.Game;
+        private new Game1 game;
 
         public Level4(Game1 game) : base(game)
         {
-
+            this.game = game;
+            this.game.totalScore = 0;
         }
 
         public override void LoadContent()

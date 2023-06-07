@@ -16,10 +16,14 @@ namespace MyMonogameTest.Sprites.World
 {
     class Fundo : Sprite
     {
+        private new Game1 game;
+
         public Fundo(Texture2D texture, Game1 game1) : base(texture)
         {
-            float dif = (float)Game1.ScreenWidth / _texture.Width;
-            Rectangle = new Rectangle(0,0,(int)(_texture.Width*dif),Game1.ScreenHeight);
+            game = game1;
+
+            float dif = (float)game.ScreenWidth / _texture.Width;
+            Rectangle = new Rectangle(0, 0, (int)(_texture.Width * dif), game.ScreenHeight);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -9,7 +9,7 @@ namespace MyMonogameTest.Levels
 {
     public class Level2 : GameScreen
     {
-        private new Game1 Game => (Game1)base.Game;
+        private new Game1 game;
 
         public Texture2D fundoEarth;
         public Texture2D fundoEarth2;
@@ -23,6 +23,8 @@ namespace MyMonogameTest.Levels
 
         public Level2(Game1 game, SpriteBatch spriteBatch) : base(game)
         {
+            this.game = game;
+            this.game.totalScore = 0;
             this.spriteBatch = spriteBatch;
         }
 
@@ -55,8 +57,8 @@ namespace MyMonogameTest.Levels
             _sprites = new List<Sprite>()
             {
                 //create Player
-                new Fundo(fundoEarth, Game),
-                new Player(playerTexStart, Game)
+                new Fundo(fundoEarth, game),
+                new Player(playerTexStart, game)
 
             };
         }
@@ -82,7 +84,6 @@ namespace MyMonogameTest.Levels
             //remove "dead" sprites
             foreach (Sprite spr in spritesToRemove)
                 _sprites.Remove(spr);
-
             //add new sprites
             _sprites.AddRange(spritesToAdd);
         }
@@ -99,7 +100,7 @@ namespace MyMonogameTest.Levels
                 if (spr is Player player)
                 {
                     spriteBatch.DrawString(spriteFont, "   Vidas: " + (spr.Health).ToString(), new Vector2(0, 10), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "   " + Game.totalScore + " / 10 Pontos", new Vector2(0, 32), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "   " + game.totalScore + " / 10 Pontos", new Vector2(0, 32), Color.Black);
                     //spriteBatch.DrawString(spriteFont, player.GetFacingDirection().ToString(), new Vector2(0, 54), Color.Black);
                 }
                 else if (spr is Weapon weapon)

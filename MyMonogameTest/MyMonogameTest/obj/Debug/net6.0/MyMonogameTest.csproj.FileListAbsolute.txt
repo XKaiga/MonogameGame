@@ -107,3 +107,10 @@ C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\D
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\earth_background.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\earth_background2.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\earth_platform.xnb
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\earth_background.xnb
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\earth_background2.xnb
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\earth_platform.xnb
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\mina.xnb
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\water_fall.xnb
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\MonoGame.Extended.dll
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Newtonsoft.Json.dll

@@ -10,7 +10,7 @@ namespace MyMonogameTest.Levels
 {
     class Level1: GameScreen
     {
-        private new Game1 Game => (Game1)base.Game;
+        private new Game1 game;
 
 
         public Texture2D playerTexStart;
@@ -24,6 +24,8 @@ namespace MyMonogameTest.Levels
 
         public Level1(Game1 game, SpriteBatch spriteBatch) : base(game)
         {
+            this.game = game;
+            this.game.totalScore = 0;
             this.spriteBatch = spriteBatch;
         }
 
@@ -55,9 +57,8 @@ namespace MyMonogameTest.Levels
             _sprites = new List<Sprite>()
             {
                 //create Player
-                new Fundo(fundoWater, Game),
-                new Player(playerTexStart, Game)
-                
+                new Fundo(fundoWater, game),
+                new Player(playerTexStart, game)
             };
         }
 
@@ -69,10 +70,9 @@ namespace MyMonogameTest.Levels
             {
                 if (sprite is Player player)
                 {
-                    player.MouseMove();
+                    player.MouseMove(gameTime, spritesToAdd);
                     if (player.Position.Y < 100)
                         player.Position.Y = 100;
-                    
                 }
                 //update all sprites
                 sprite.Update(gameTime, _sprites, spritesToAdd);
@@ -98,9 +98,12 @@ namespace MyMonogameTest.Levels
             foreach (var spr in _sprites)
                 if (spr is Player player)
                 {
-                    spriteBatch.DrawString(spriteFont, "   Vidas: " + (spr.Health).ToString(), new Vector2(0, 10), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "   " + Game.totalScore + " / 10 Pontos", new Vector2(0, 32), Color.Black);
-                    spriteBatch.DrawString(spriteFont, " X:  " + Mouse.GetState().X + " Y:" + Mouse.GetState().Y, new Vector2(0, 52), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "   " + game.totalScore + " / 10 Pontos", new Vector2(0, 30), Color.Black);
+                    spriteBatch.DrawString(spriteFont, " X:  " + Mouse.GetState().X + " Y:" + Mouse.GetState().Y, new Vector2(0, 50), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "" + player.mousePosition, new Vector2(0, 70), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "" + player.Position, new Vector2(0, 90), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "" + player.distanceToTarget, new Vector2(0, 140), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "" + player.breakSpeed, new Vector2(0, 160), Color.Black);
 
                     //spriteBatch.DrawString(spriteFont, player.GetFacingDirection().ToString(), new Vector2(0, 54), Color.Black);
                 }
