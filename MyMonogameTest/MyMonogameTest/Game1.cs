@@ -28,7 +28,7 @@ namespace MyMonogameTest
 
         private ScreenManager screenManager;
 
-        public int level = 1;
+        public int level = 2;
         private bool hKeyPressed = false;
 
         public Game1()
@@ -54,7 +54,7 @@ namespace MyMonogameTest
 
         protected override void Initialize()
         {
-            Input.UpMove = new Keys[] { Keys.Up, Keys.W };
+            Input.UpMove = new Keys[] { Keys.Up, Keys.W , Keys.Space};
             Input.DownMove = new Keys[] { Keys.Down, Keys.S };
             Input.LeftMove = new Keys[] { Keys.Left, Keys.A };
             Input.RightMove = new Keys[] { Keys.Right, Keys.D };
@@ -62,7 +62,7 @@ namespace MyMonogameTest
             Input.Portal = new Keys[] { Keys.D1, Keys.P };
             base.Initialize();
             //LoadMenu();
-            LoadLevel1();
+            LoadLevel2();
         }
 
         protected override void LoadContent()

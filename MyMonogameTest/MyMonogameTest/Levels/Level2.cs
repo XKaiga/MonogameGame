@@ -70,12 +70,12 @@ namespace MyMonogameTest.Levels
             List<Sprite> spritesToAdd = new List<Sprite>();
             foreach (var sprite in _sprites)
             {
-                if (sprite is Player player)
-                {
-                    player.Move(gameTime, spritesToAdd);
-                }
                 //update all sprites
                 sprite.Update(gameTime, _sprites, spritesToAdd);
+
+                if (sprite is Player player)
+                    player.Move(gameTime, spritesToAdd);
+
                 //get sprites to be removed
                 if (sprite.IsRemoved)
                     spritesToRemove.Add(sprite);
@@ -101,12 +101,7 @@ namespace MyMonogameTest.Levels
                 {
                     spriteBatch.DrawString(spriteFont, "   Vidas: " + (spr.Health).ToString(), new Vector2(0, 10), Color.Black);
                     spriteBatch.DrawString(spriteFont, "   " + game.totalScore + " / 10 Pontos", new Vector2(0, 32), Color.Black);
-                    //spriteBatch.DrawString(spriteFont, player.GetFacingDirection().ToString(), new Vector2(0, 54), Color.Black);
-                }
-                else if (spr is Weapon weapon)
-                {
-                    //spriteBatch.DrawString(spriteFont, weapon.Position.ToString(), new Vector2(0, 54), Color.Black);
-                    //spriteBatch.DrawString(spriteFont, "   " + totalScore + " / 10 Pontos", new Vector2(0, 76), Color.Black);
+                    //spriteBatch.DrawString(spriteFont, player.isOnGround.ToString(), new Vector2(0, 52), Color.Black);
                 }
             spriteBatch.End();
         }

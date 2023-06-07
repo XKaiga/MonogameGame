@@ -68,14 +68,16 @@ namespace MyMonogameTest.Levels
             List<Sprite> spritesToAdd = new List<Sprite>();
             foreach (var sprite in _sprites)
             {
+                //update all sprites
+                sprite.Update(gameTime, _sprites, spritesToAdd);
+
                 if (sprite is Player player)
                 {
                     player.MouseMove(gameTime, spritesToAdd);
                     if (player.Position.Y < 100)
                         player.Position.Y = 100;
                 }
-                //update all sprites
-                sprite.Update(gameTime, _sprites, spritesToAdd);
+
                 //get sprites to be removed
                 if (sprite.IsRemoved)
                     spritesToRemove.Add(sprite);

@@ -28,15 +28,28 @@ namespace MyMonogameTest.Sprites
 {
     class Player : Sprite
     {
+
         #region Movement
 
-        private Vector2 previousPosition = new Vector2(100, 100);
+        private Vector2 previousPosition;
 
         public new KeyboardState _currentKey;
         public new KeyboardState _previousKey;
 
         private Vector2 direction;
         private Vector2 movement;// Move the player based on input
+
+        #region Gravity&Jump
+
+        public float gravity = 300f; //the power of gravity
+        public bool gravityOn = false;
+        public bool isOnGround = true;
+
+        private float jumpLevel = 0; //the higher y when jumping, used to know when gravity takes effect
+        private float jumpForce = 160f; //how heigh jumps
+        private float jumpSpeed = 10f; //how fast jumps
+
+        #endregion
 
         #region Mouse
 
@@ -95,7 +108,7 @@ namespace MyMonogameTest.Sprites
             this.game = game;
 
             playerTexStart = texture;
-            Position = new Vector2(100, 100);
+            Position = new Vector2(100, game.ScreenHeight - this.Rectangle.Height);
 
             Health = 2;
 
@@ -146,6 +159,12 @@ namespace MyMonogameTest.Sprites
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
         {
+            // Keep the sprite on the screen
+            Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(game.ScreenWidth - this.Rectangle.Width, game.ScreenHeight - this.Rectangle.Height));
+            if (Position.Y == game.ScreenHeight - this.Rectangle.Height)
+                gravityOn = false;
+
+            //animation
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer > interval)
             {
@@ -180,15 +199,21 @@ namespace MyMonogameTest.Sprites
                         if (overlap.Width > overlap.Height)
                             // Move the player up or down, depending on which side of the rectangle the collision occurred
                             if (this.Position.Y < sprite.Position.Y)
+                            {
                                 this.Position.Y -= overlap.Height;
+                                gravityOn = false;
+                                this.isOnGround = true;
+                            }
                             else
                                 this.Position.Y += overlap.Height;
                         else
+                        {
                             // Move the player left or right, depending on which side of the rectangle the collision occurred
                             if (this.Position.X < sprite.Position.X)
-                            this.Position.X -= overlap.Width;
-                        else
-                            this.Position.X += overlap.Width;
+                                this.Position.X -= overlap.Width;
+                            else
+                                this.Position.X += overlap.Width;
+                        }
                     }
                 }
             }
@@ -202,22 +227,6 @@ namespace MyMonogameTest.Sprites
 
             // Move the player based on input
             movement = new Vector2(0, 0);
-
-            //Up Movement
-            if (Input.KeyPressed(Keys.Up, _previousKey, _currentKey))
-            {
-                movement.Y -= 1.0f;
-                if (!inStaticAnimation)
-                    ChangeAnimationState(AnimationState.Movimento);
-            }
-
-            //Down Movement
-            if (Input.KeyPressed(Keys.Down, _previousKey, _currentKey))
-            {
-                movement.Y += 1.0f;
-                if (!inStaticAnimation)
-                    ChangeAnimationState(AnimationState.Movimento);
-            }
 
             //Left Movement
             if (Input.KeyPressed(Keys.Left, _previousKey, _currentKey))
@@ -244,6 +253,34 @@ namespace MyMonogameTest.Sprites
             }
             else if (!inStaticAnimation)
                 ChangeAnimationState(AnimationState.Parado);
+
+            //gravity
+            if (gravityOn)
+            {
+                Position.Y += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
+            }
+
+            //Jump
+            if ((Input.KeyPressed(Keys.Up, _previousKey, _currentKey) && isOnGround && !gravityOn) || !isOnGround)
+            {
+                isOnGround = false;
+                if (jumpLevel == 0)
+                    jumpLevel = Position.Y - jumpForce;
+
+                Position.Y -= jumpSpeed;
+
+                if (!inStaticAnimation)
+                    ChangeAnimationState(AnimationState.Movimento);
+
+                if (Position.Y <= jumpLevel)
+                {
+                    isOnGround = true;
+                    jumpLevel = 0;
+                    gravityOn = true;
+                }
+            }
 
             Fight(gameTime, spritesToAdd, false);
         }
@@ -301,7 +338,7 @@ namespace MyMonogameTest.Sprites
             if (mouseMoveState == MouseMoveState.Staying && !inStaticAnimation)
                 ChangeAnimationState(AnimationState.Parado);
 
-            
+
             Fight(gameTime, spritesToAdd, true);
         }
 
@@ -313,9 +350,6 @@ namespace MyMonogameTest.Sprites
 
         private void Fight(GameTime gameTime, List<Sprite> spritesToAdd, bool mouse)
         {
-            // Keep the sprite on the screen
-            Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(game.ScreenWidth - this.Rectangle.Width, game.ScreenHeight - this.Rectangle.Height));
-
             //Fight Animation
             if (Input.KeyPressed(Keys.F, _previousKey, _currentKey) && timeSinceLastShot >= timeBetweenShots)
             {

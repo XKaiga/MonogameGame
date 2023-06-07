@@ -14,6 +14,7 @@ namespace MyMonogameTest.Models
         public static Keys[] DownMove;
         public static Keys[] LeftMove;
         public static Keys[] RightMove;
+        public static Keys[] Jump;
         public static Keys[] Fight;
         public static Keys[] Portal;
 
