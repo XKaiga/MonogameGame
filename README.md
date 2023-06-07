@@ -30,7 +30,7 @@ A game made in Monogame
 	[camâra focada no player];
 	Class Level Manager: para fazer o jogador ir de nivel a nivel;
 	sistema de save para 'guardar e sair do jogo';	
-	gravity & Player jump => plataform game movement basically (and extra i think: plataformas que se mexem);
+	extra i think: plataformas que se mexem;
 	enemy ai;
 	[powers]:
 		buble shield(position = player_position, tranparency = ?%, collision with enemyWeapon);
