@@ -9,7 +9,10 @@ namespace MyMonogameTest.Levels
 {
     public class Level2 : GameScreen
     {
+        private Matrix _viewMatrix;
+
         private new Game1 game;
+        private Player _Player;
 
         public Texture2D fundoEarth;
         public Texture2D fundoEarth2;
@@ -43,6 +46,7 @@ namespace MyMonogameTest.Levels
                 sprite.LoadContent();
             base.LoadContent();
         }
+        
         private void LoadStartContent()
         {
             //create a texture to start the player
@@ -53,19 +57,22 @@ namespace MyMonogameTest.Levels
 
         private void LoadSprites()
         {
+            _Player = new Player(playerTexStart, game);
+            
             //all "objects"
             _sprites = new List<Sprite>()
             {
                 //create Player
                 new Fundo(fundoEarth, game),
-                new Player(playerTexStart, game)
-
+                _Player
             };
         }
 
 
         public override void Update(GameTime gameTime)
         {
+            CalculateTranslation();
+
             List<Sprite> spritesToRemove = new List<Sprite>();
             List<Sprite> spritesToAdd = new List<Sprite>();
             foreach (var sprite in _sprites)
@@ -88,21 +95,38 @@ namespace MyMonogameTest.Levels
             _sprites.AddRange(spritesToAdd);
         }
         
-        
+        private void CalculateTranslation()
+        {
+            var dx = (game.ScreenWidth / 2) - ((_Player.Position.X + _Player.Origin.X) * game.ZoomLevel);
+            var dy = (game.ScreenHeight / 2) - ((_Player.Position.Y + _Player.Origin.Y) * game.ZoomLevel);
+            dx = MathHelper.Clamp(dx, -(game.ScreenWidth * game.ZoomLevel - game.ScreenWidth), 0);
+            dy = MathHelper.Clamp(dy, -(game.ScreenHeight * game.ZoomLevel - game.ScreenHeight), 0);
+            var _translation = Matrix.CreateTranslation(dx, dy, 0f);
+
+            var zoomMatrix = Matrix.CreateScale(game.ZoomLevel);
+            _viewMatrix = zoomMatrix * _translation;
+        }
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
-            foreach (var sprite in _sprites)
-                sprite.Draw(spriteBatch);
+            spriteBatch.Begin(transformMatrix: _viewMatrix);
 
-            foreach (var spr in _sprites)
-                if (spr is Player player)
+            foreach (var sprite in _sprites)
+            {
+                sprite.Draw(spriteBatch);
+                if (sprite is Player player)
                 {
-                    spriteBatch.DrawString(spriteFont, "   Vidas: " + (spr.Health).ToString(), new Vector2(0, 10), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "   " + game.totalScore + " / 10 Pontos", new Vector2(0, 32), Color.Black);
-                    //spriteBatch.DrawString(spriteFont, player.isOnGround.ToString(), new Vector2(0, 52), Color.Black);
+                    // Apply the inverse transformation to the position
+                    Vector2 healthPosition = Vector2.Transform(new Vector2(10, 10), Matrix.Invert(_viewMatrix));
+                    Vector2 scorePosition = Vector2.Transform(new Vector2(10, 30), Matrix.Invert(_viewMatrix));
+                    Vector2 testPosition = Vector2.Transform(new Vector2(10, 50), Matrix.Invert(_viewMatrix));
+
+                    spriteBatch.DrawString(spriteFont, "   Vidas: " + (sprite.Health).ToString(), healthPosition, Color.Black);
+                    spriteBatch.DrawString(spriteFont, "   " + game.totalScore + " / 10 Pontos", scorePosition, Color.Black);
+                    spriteBatch.DrawString(spriteFont, player.Origin.ToString(), testPosition, Color.Black);
                 }
+            }
+                
             spriteBatch.End();
         }
     }

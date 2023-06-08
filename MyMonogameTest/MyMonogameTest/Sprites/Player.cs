@@ -13,6 +13,7 @@ using System.Diagnostics.SymbolStore;
 using System.Threading;
 using MyMonogameTest.Levels;
 using MonoGame.Extended.Timers;
+using Microsoft.Xna.Framework.Content;
 
 enum AnimationState
 {
@@ -28,6 +29,8 @@ namespace MyMonogameTest.Sprites
 {
     class Player : Sprite
     {
+        public ContentManager Content;
+        private SpriteFont spriteFont;
 
         #region Movement
 
@@ -38,6 +41,7 @@ namespace MyMonogameTest.Sprites
 
         private Vector2 direction;
         private Vector2 movement;// Move the player based on input
+        private bool movingRight = true;
 
         #region Gravity&Jump
 
@@ -46,7 +50,7 @@ namespace MyMonogameTest.Sprites
         public bool isOnGround = true;
 
         private float jumpLevel = 0; //the higher y when jumping, used to know when gravity takes effect
-        private float jumpForce = 160f; //how heigh jumps
+        private float jumpForce = 175f; //how heigh jumps
         private float jumpSpeed = 10f; //how fast jumps
 
         #endregion
@@ -105,7 +109,9 @@ namespace MyMonogameTest.Sprites
 
         public Player(Texture2D texture, Game1 game) : base(texture)
         {
+
             this.game = game;
+            Content = game.Content;
 
             playerTexStart = texture;
             Position = new Vector2(100, game.ScreenHeight - this.Rectangle.Height);
@@ -119,6 +125,8 @@ namespace MyMonogameTest.Sprites
 
         public override void LoadContent()
         {
+            spriteFont = Content.Load<SpriteFont>("File");
+
             spritesAnimation = new Texture2D[4][];
             spritesAnimation[(int)AnimationState.Parado] = new[]
             {
@@ -231,6 +239,7 @@ namespace MyMonogameTest.Sprites
             //Left Movement
             if (Input.KeyPressed(Keys.Left, _previousKey, _currentKey))
             {
+                movingRight = false;
                 movement.X -= 1.0f;
                 if (!inStaticAnimation)
                     ChangeAnimationState(AnimationState.Movimento);
@@ -239,6 +248,7 @@ namespace MyMonogameTest.Sprites
             //Right Movement
             if (Input.KeyPressed(Keys.Right, _previousKey, _currentKey))
             {
+                movingRight = true;
                 movement.X += 1.0f;
                 if (!inStaticAnimation)
                     ChangeAnimationState(AnimationState.Movimento);
@@ -417,7 +427,11 @@ namespace MyMonogameTest.Sprites
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(spritesAnimation[(int)currentState][currentFrame], Position, Color.White);
+            //invert sprite?
+            SpriteEffects effects = movingRight? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+            // Desenhe o sprite
+            spriteBatch.Draw(spritesAnimation[(int)currentState][currentFrame], Position+Origin, null, Color.White, 0f, Origin, 1f, effects, 0f);
         }
     }
 }

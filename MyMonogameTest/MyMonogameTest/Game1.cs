@@ -23,6 +23,7 @@ namespace MyMonogameTest
 
         public int ScreenWidth;
         public int ScreenHeight;
+        public float ZoomLevel = 1.5f;
 
         public int totalScore;
 
