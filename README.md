@@ -27,7 +27,6 @@ A game made in Monogame
 
 # To Do:
 	[sistema de highscore];
-	[camâra focada no player];
 	Class Level Manager: para fazer o jogador ir de nivel a nivel;
 	sistema de save para 'guardar e sair do jogo';	
 	extra i think: plataformas que se mexem;
@@ -37,6 +36,19 @@ A game made in Monogame
 		portal(idea: can only have two portals on the map, code: if exists 2 portals when player touches one teleports to the other(player.position = ?);
 		air(pushes enemy, code: if in collision with enemy, dependendo de que lado vem manda y ou x para -valor);
 	pedra com lava, se player toca leva dano a cada ?secs;
+
+# Needs to be Done:
+	➢ O jogo não poderá estar limitado ao tamanho da janela do Monogame;
+	➢ Som;
+	➢ Deverão existir inimigos com movimento autónomo;
+	➢ "colisões"(already done kinda, yhe);
+	Extra:
+		• Diferentes tipos de inimigos;
+		• Menus/créditos;
+		• Sistema de HighScore;
+		• A jogabilidade;
+		• Correta estruturação modular do jogo desenvolvido;
+
 
 ## Levels:
 ### level1(water):
