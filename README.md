@@ -18,11 +18,11 @@ A game made in Monogame
 
 ## Helder:
 ### Doing:
-    ?
+	➢ Deverão existir inimigos com movimento autónomo;
 
 ## Sara:
 ### Doing:
-    ?
+	➢ Som;
 
 
 # To Do:
@@ -37,9 +37,7 @@ A game made in Monogame
 	pedra com lava, se player toca leva dano a cada ?secs;
 
 # Needs to be Done:
-	➢ O jogo não poderá estar limitado ao tamanho da janela do Monogame;
-	➢ Som;
-	➢ Deverão existir inimigos com movimento autónomo;
+	➢ "O jogo não poderá estar limitado ao tamanho da janela do Monogame"(already done kinda, yhe);
 	➢ "colisões"(already done kinda, yhe);
 	Extra:
 		• Diferentes tipos de inimigos;
