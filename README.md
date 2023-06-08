@@ -22,11 +22,10 @@ A game made in Monogame
 
 ## Sara:
 ### Doing:
-    arte
+    ?
 
 
 # To Do:
-	[sistema de highscore];
 	Class Level Manager: para fazer o jogador ir de nivel a nivel;
 	sistema de save para 'guardar e sair do jogo';	
 	extra i think: plataformas que se mexem;
