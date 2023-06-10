@@ -57,7 +57,6 @@ namespace MyMonogameTest.Levels
             //create a texture to start the player
             playerTexStart = Content.Load<Texture2D>("parado_1");
             enemyTexStart = Content.Load<Texture2D>("parado_2");
-            platTex = Content.Load<Texture2D>("plataforma_rosa");
 
             spriteFont = Content.Load<SpriteFont>("File");
         }

@@ -32,8 +32,8 @@ namespace MyMonogameTest
         public bool isFirstMusic = false;
         private ScreenManager screenManager;
 
-        public int level = -1;
-        //public int level = 1;
+        //public int level = -2;
+        public int level = -2;
         private bool hKeyPressed = false;
 
         public float scalingFactor = 1;
@@ -78,6 +78,8 @@ namespace MyMonogameTest
 
         protected override void LoadContent()
         {
+            music = Content.Load<Song>("music");
+
             //to draw
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -116,8 +118,11 @@ namespace MyMonogameTest
 
             switch (level)
             {
+                case -1:
+                    screenManager.LoadScreen(new Menu(this, spriteBatch), levelTransition);
+                    break;
                 case 0:
-                    screenManager.LoadScreen(new Menu(this), levelTransition);
+                    screenManager.LoadScreen(new MenuLevels(this, spriteBatch), levelTransition);
                     break;
                 case 1:
                     screenManager.LoadScreen(new Level1(this, spriteBatch), levelTransition);
