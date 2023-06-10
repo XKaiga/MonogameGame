@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -13,6 +13,7 @@ using MonoGame.Extended.Screens;
 using MyMonogameTest.Levels;
 using MonoGame.Extended.Screens.Transitions;
 using System.ComponentModel;
+using Microsoft.Xna.Framework.Media;
 
 namespace MyMonogameTest
 {
@@ -27,7 +28,8 @@ namespace MyMonogameTest
         public float ZoomLevel = 1f;
 
         public int totalScore;
-
+        public Song music;
+        public bool isFirstMusic = false;
         private ScreenManager screenManager;
 
         public int level = -1;
@@ -90,6 +92,12 @@ namespace MyMonogameTest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             KeyboardState keyboardState = Keyboard.GetState();
+
+            if (MediaPlayer.State != MediaState.Playing && isFirstMusic == false)
+            {
+                MediaPlayer.Play(music);
+                isFirstMusic = true;
+            }
 
             if (keyboardState.IsKeyDown(Keys.H) && !hKeyPressed)
                 ChangeLevel();

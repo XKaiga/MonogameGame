@@ -30,6 +30,11 @@ A game made in Monogame
 	sistema de save para 'guardar e sair do jogo';	
 	extra i think: plataformas que se mexem;
 	enemy ai;
+	posição das minas:
+		90,330
+		240,170
+		435,240
+		680,360
 	[powers]:
 		buble shield(position = player_position, tranparency = ?%, collision with enemyWeapon);
 		portal(idea: can only have two portals on the map, code: if exists 2 portals when player touches one teleports to the other(player.position = ?);

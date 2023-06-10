@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -32,8 +32,8 @@ namespace MyMonogameTest.Sprites.World
         public override void Draw(SpriteBatch spriteBatch)
         {
             Rectangle = new Rectangle((int)Position.X, (int)Position.Y, width, height);
-            spriteBatch.Draw(_texture, Rectangle, Color.White);
-
+            spriteBatch.Draw(_texture, Rectangle/*, new Rectangle(0,0, Rectangle.X,Rectangle.Y)*/, Color.White);
+            
         }
     }
 }

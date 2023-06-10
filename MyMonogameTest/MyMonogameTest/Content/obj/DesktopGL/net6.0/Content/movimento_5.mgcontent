@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/movimento_5.png</SourceFile>
-  <SourceTime>2023-05-10T19:39:00.2172796+01:00</SourceTime>
-  <DestFile>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/bin/DesktopGL/Content/movimento_5.xnb</DestFile>
-  <DestTime>2023-05-29T20:57:24.8390185+01:00</DestTime>
+  <SourceFile>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/movimento_5.png</SourceFile>
+  <SourceTime>2023-06-08T11:39:08.2196417+01:00</SourceTime>
+  <DestFile>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/bin/DesktopGL/Content/movimento_5.xnb</DestFile>
+  <DestTime>2023-06-08T11:43:16.300735+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T12:44:56+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

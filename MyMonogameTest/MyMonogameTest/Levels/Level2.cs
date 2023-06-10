@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Screens;
 using MyMonogameTest.Sprites;
@@ -18,7 +18,8 @@ namespace MyMonogameTest.Levels
         public Texture2D fundoEarth2;
         public Texture2D playerTexStart;
         public Texture2D enemyTexStart;
-        public Texture2D platTex;
+        public Texture2D plataforma;
+        public Texture2D coracao;
 
         private SpriteFont spriteFont;
 
@@ -41,6 +42,8 @@ namespace MyMonogameTest.Levels
 
             fundoEarth = Content.Load<Texture2D>("earth_background");
             fundoEarth2 = Content.Load<Texture2D>("earth_background2");
+            plataforma = Content.Load<Texture2D>("earth_platform");
+            coracao = Content.Load<Texture2D>("10");
 
             LoadSprites();
 
@@ -68,10 +71,7 @@ namespace MyMonogameTest.Levels
             {
                 //create Player
                 new Fundo(fundoEarth, game),
-                _Player,
-                new Enemy(enemyTexStart, game, new Vector2(0), 1, enemyType.shooter),
-                new Plataform(platTex, new Vector2(game.ScreenWidth/2, (float)game.ScreenHeight/1.5f), (int)(game.ScreenWidth/4), (int)(game.ScreenHeight/6)),
-                new Area(platTex, game, new Vector2(game.ScreenWidth/8, (float)game.ScreenHeight/3f), game.ScreenWidth/4, game.ScreenHeight/7, AreaType.nextLevel)
+                _Player
             };
         }
 

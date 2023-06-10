@@ -16,6 +16,7 @@ namespace MyMonogameTest.Levels
         public Texture2D playerTexStart;
         public Texture2D plataformTex;
         public Texture2D fundoWater;
+        public Texture2D mina;
 
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
@@ -49,6 +50,9 @@ namespace MyMonogameTest.Levels
             playerTexStart = Content.Load<Texture2D>("parado_1");
 
             spriteFont = Content.Load<SpriteFont>("File");
+
+
+            mina = Content.Load<Texture2D>("mina");
         }
 
         private void LoadSprites()
