@@ -58,7 +58,8 @@ namespace MyMonogameTest.Levels
             {
                 //create Player
                 new Fundo(fundoWater, game),
-                new Player(playerTexStart, game)
+                new Player(playerTexStart, game),
+                new Area(fundoWater, game, new Vector2(game.ScreenWidth/5, (float)game.ScreenHeight/3f), game.ScreenWidth/4, game.ScreenHeight/7, AreaType.nextLevel)
             };
         }
 

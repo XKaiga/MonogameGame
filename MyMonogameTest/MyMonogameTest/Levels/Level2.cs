@@ -17,6 +17,8 @@ namespace MyMonogameTest.Levels
         public Texture2D fundoEarth;
         public Texture2D fundoEarth2;
         public Texture2D playerTexStart;
+        public Texture2D enemyTexStart;
+        public Texture2D platTex;
 
         private SpriteFont spriteFont;
 
@@ -46,11 +48,13 @@ namespace MyMonogameTest.Levels
                 sprite.LoadContent();
             base.LoadContent();
         }
-        
+
         private void LoadStartContent()
         {
             //create a texture to start the player
             playerTexStart = Content.Load<Texture2D>("parado_1");
+            enemyTexStart = Content.Load<Texture2D>("parado_2");
+            platTex = Content.Load<Texture2D>("plataforma_rosa");
 
             spriteFont = Content.Load<SpriteFont>("File");
         }
@@ -58,13 +62,16 @@ namespace MyMonogameTest.Levels
         private void LoadSprites()
         {
             _Player = new Player(playerTexStart, game);
-            
+
             //all "objects"
             _sprites = new List<Sprite>()
             {
                 //create Player
                 new Fundo(fundoEarth, game),
-                _Player
+                _Player,
+                new Enemy(enemyTexStart, game, new Vector2(0), 1, enemyType.shooter),
+                new Plataform(platTex, new Vector2(game.ScreenWidth/2, (float)game.ScreenHeight/1.5f), (int)(game.ScreenWidth/4), (int)(game.ScreenHeight/6)),
+                new Area(platTex, game, new Vector2(game.ScreenWidth/8, (float)game.ScreenHeight/3f), game.ScreenWidth/4, game.ScreenHeight/7, AreaType.nextLevel)
             };
         }
 
@@ -94,7 +101,7 @@ namespace MyMonogameTest.Levels
             //add new sprites
             _sprites.AddRange(spritesToAdd);
         }
-        
+
         private void CalculateTranslation()
         {
             var dx = (game.ScreenWidth / 2) - ((_Player.Position.X + _Player.Origin.X) * game.ZoomLevel);
@@ -121,12 +128,20 @@ namespace MyMonogameTest.Levels
                     Vector2 scorePosition = Vector2.Transform(new Vector2(10, 30), Matrix.Invert(_viewMatrix));
                     Vector2 testPosition = Vector2.Transform(new Vector2(10, 50), Matrix.Invert(_viewMatrix));
 
-                    spriteBatch.DrawString(spriteFont, "   Vidas: " + (sprite.Health).ToString(), healthPosition, Color.Black);
+                    spriteBatch.DrawString(spriteFont, "   Vidas: " + player.Health.ToString(), healthPosition, Color.Black);
                     spriteBatch.DrawString(spriteFont, "   " + game.totalScore + " / 10 Pontos", scorePosition, Color.Black);
-                    spriteBatch.DrawString(spriteFont, player.Origin.ToString(), testPosition, Color.Black);
+                    spriteBatch.DrawString(spriteFont, player.Imune.ToString(), testPosition, Color.Black);
+                }
+                else if (sprite is Enemy enemy)
+                {
+                    spriteBatch.DrawString(spriteFont, enemy.a.ToString(), new Vector2(200, 200), Color.Black);
+                }
+                else if (sprite is Area)
+                {
+                    spriteBatch.DrawString(spriteFont, "abc", new Vector2(200, 300), Color.Black);
                 }
             }
-                
+
             spriteBatch.End();
         }
     }

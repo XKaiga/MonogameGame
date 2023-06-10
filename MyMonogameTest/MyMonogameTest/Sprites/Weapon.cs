@@ -21,11 +21,11 @@ namespace MyMonogameTest.Sprites
         //direction * speed
         public Vector2 velocity;
 
-        public Weapon(Texture2D texture, Sprite parentSprite, int damage, Vector2 direction) : base(texture)
+        public Weapon(Texture2D texture, Sprite parentSprite, int damage, Vector2 direction, float speed = 0) : base(texture)
         {
             Parent = parentSprite;
             this.damage = damage;
-            Speed = Parent.Speed * 1.5f;
+            Speed = speed != 0? speed : Parent.Speed * 1.5f;
             Position = Parent.Position;
 
             //direction
@@ -42,7 +42,7 @@ namespace MyMonogameTest.Sprites
 
             foreach (var sprite in sprites)
             {
-                if (sprite is Player || sprite is Weapon || sprite is Fundo)
+                if (/*sprite is Player*/sprite is Enemy || sprite is Weapon || sprite is Fundo)
                     continue;
 
                 // Colission

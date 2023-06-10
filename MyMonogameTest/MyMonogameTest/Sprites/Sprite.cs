@@ -23,7 +23,30 @@ namespace MyMonogameTest.Sprites
         public float Speed = 0f;
 
         private int health = -1;
-        public int Health { get => this.health; set { this.health = value < 0 ? 0 : value; } }
+        public int Health
+        {
+            get => this.health;
+            set
+            {
+                if (!Imune)
+                {
+                    if (this is Player && health != -1)
+                        Imune = true;
+                    this.health = value < 0 ? 0 : value;
+                }
+            }
+        }
+
+        private bool imune = false;
+        public bool Imune
+        {
+            get => this.imune;
+            set {
+                if (this is Player player && player.foreverImune)
+                    return;
+                this.imune = value;
+            }
+        }
 
         private bool isRemoved = false;
         public bool IsRemoved

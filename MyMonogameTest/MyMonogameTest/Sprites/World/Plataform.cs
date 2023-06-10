@@ -31,17 +31,9 @@ namespace MyMonogameTest.Sprites.World
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
-            //Color[] data = new Color[_texture.Height * Game1.ScreenWidth];
-            //for (int i = 0; i < data.Length; ++i) data[i] = Color.Green;
-            //_texture.SetData(data);
-
-            ////Rectangle rectangle = new Rectangle(0, Game1.ScreenWidth, 100, Game1.ScreenHeight);
-            //Rectangle rectangle = new Rectangle(0, Game1.ScreenHeight- _texture.Height, Game1.ScreenWidth, _texture.Height);
-            //Rectangle = rectangle;
             Rectangle = new Rectangle((int)Position.X, (int)Position.Y, width, height);
-            spriteBatch.Draw(_texture, Rectangle, new Rectangle(0,0, Rectangle.X,Rectangle.Y), Color.White);
-            
+            spriteBatch.Draw(_texture, Rectangle, Color.White);
+
         }
     }
 }

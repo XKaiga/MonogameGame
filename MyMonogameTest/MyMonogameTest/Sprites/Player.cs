@@ -14,6 +14,8 @@ using System.Threading;
 using MyMonogameTest.Levels;
 using MonoGame.Extended.Timers;
 using Microsoft.Xna.Framework.Content;
+using System.ComponentModel.Design;
+using Newtonsoft.Json.Linq;
 
 enum AnimationState
 {
@@ -29,8 +31,20 @@ namespace MyMonogameTest.Sprites
 {
     class Player : Sprite
     {
+
         public ContentManager Content;
         private SpriteFont spriteFont;
+
+        #region Health
+
+        public bool foreverImune = false;
+
+        // Define a TimeSpan representing the time that the player stays Imune
+        private TimeSpan timeImune = TimeSpan.FromSeconds(1);
+        // Define a TimeSpan variable to keep track of the time since the player is Imune
+        private TimeSpan timeSinceImune = TimeSpan.Zero;
+
+        #endregion
 
         #region Movement
 
@@ -102,10 +116,11 @@ namespace MyMonogameTest.Sprites
         //fps, frames per second
         private float interval = 0;
 
-        #endregion
-
         // Before changing animation, waits to finish current static animation
         private bool inStaticAnimation = false;
+
+        #endregion
+
 
         public Player(Texture2D texture, Game1 game) : base(texture)
         {
@@ -116,11 +131,18 @@ namespace MyMonogameTest.Sprites
             playerTexStart = texture;
             Position = new Vector2(100, game.ScreenHeight - this.Rectangle.Height);
 
-            Health = 2;
+            Health = 3;
 
-            Speed = 450f;
+            Speed = 450f * game.scalingFactor;
             breakSpeed = Speed;
             distanceToTargetBreak = game.level == 1 ? 100 : 58;
+
+            jumpForce *= game.scalingFactor;
+            jumpSpeed *= game.scalingFactor;
+
+            gravity *= game.scalingFactor;
+
+            breakSpd *= game.scalingFactor;
         }
 
         public override void LoadContent()
@@ -167,10 +189,34 @@ namespace MyMonogameTest.Sprites
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
         {
+            if (IsRemoved)
+                return;
+
+
+            //time the imunity
+            if (Imune)
+            {
+                // remove imunity
+                if (timeSinceImune >= timeImune)
+                {
+                    Imune = false;
+
+                    // Reset the time
+                    timeSinceImune = TimeSpan.Zero;
+                }
+                else
+                    timeSinceImune += gameTime.ElapsedGameTime;//Increment the time
+            }
+
+            //imortal cheat
+            if (Keyboard.GetState().IsKeyDown(Keys.G))
+                foreverImune = Imune = true;
+
             // Keep the sprite on the screen
             Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(game.ScreenWidth - this.Rectangle.Width, game.ScreenHeight - this.Rectangle.Height));
             if (Position.Y == game.ScreenHeight - this.Rectangle.Height)
                 gravityOn = false;
+
 
             //animation
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -186,8 +232,6 @@ namespace MyMonogameTest.Sprites
             if (currentFrame == 0)
                 inStaticAnimation = false;
 
-            if (IsRemoved)
-                return;
 
             foreach (var sprite in sprites)
             {
@@ -213,7 +257,10 @@ namespace MyMonogameTest.Sprites
                                 this.isOnGround = true;
                             }
                             else
+                            {
                                 this.Position.Y += overlap.Height;
+                                TurnGravityOn();
+                            }
                         else
                         {
                             // Move the player left or right, depending on which side of the rectangle the collision occurred
@@ -223,9 +270,12 @@ namespace MyMonogameTest.Sprites
                                 this.Position.X += overlap.Width;
                         }
                     }
+                    else if (sprite is Area area)
+                    {
+                        area.IsRemoved = true;
+                    }
                 }
             }
-
         }
 
         public void Move(GameTime gameTime, List<Sprite> spritesToAdd)
@@ -264,13 +314,11 @@ namespace MyMonogameTest.Sprites
             else if (!inStaticAnimation)
                 ChangeAnimationState(AnimationState.Parado);
 
+
             //gravity
-            if (gravityOn)
-            {
-                Position.Y += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (!inStaticAnimation)
-                    ChangeAnimationState(AnimationState.Movimento);
-            }
+            float prevY = Position.Y;
+            Position.Y += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
 
             //Jump
             if ((Input.KeyPressed(Keys.Up, _previousKey, _currentKey) && isOnGround && !gravityOn) || !isOnGround)
@@ -286,13 +334,18 @@ namespace MyMonogameTest.Sprites
 
                 if (Position.Y <= jumpLevel)
                 {
-                    isOnGround = true;
-                    jumpLevel = 0;
-                    gravityOn = true;
+                    TurnGravityOn();
                 }
             }
 
             Fight(gameTime, spritesToAdd, false);
+        }
+
+        private void TurnGravityOn()
+        {
+            isOnGround = true;
+            jumpLevel = 0;
+            gravityOn = true;
         }
 
         public void MouseMove(GameTime gameTime, List<Sprite> spritesToAdd)
@@ -392,7 +445,7 @@ namespace MyMonogameTest.Sprites
             }
 
             if (direction == Vector2.Zero)
-                return new Vector2(1, 0);
+                return movingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
 
             direction.Normalize();
             return direction;
@@ -428,10 +481,12 @@ namespace MyMonogameTest.Sprites
         public override void Draw(SpriteBatch spriteBatch)
         {
             //invert sprite?
-            SpriteEffects effects = movingRight? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects effects = movingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+            Color color = Imune ? Color.LightSkyBlue : Color.White;
 
             // Desenhe o sprite
-            spriteBatch.Draw(spritesAnimation[(int)currentState][currentFrame], Position+Origin, null, Color.White, 0f, Origin, 1f, effects, 0f);
+            spriteBatch.Draw(spritesAnimation[(int)currentState][currentFrame], Position + Origin, null, color, 0f, Origin, 1f, effects, 0f);
         }
     }
 }

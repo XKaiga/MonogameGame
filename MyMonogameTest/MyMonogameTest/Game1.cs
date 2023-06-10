@@ -23,14 +23,18 @@ namespace MyMonogameTest
 
         public int ScreenWidth;
         public int ScreenHeight;
-        public float ZoomLevel = 1.5f;
+        //public float ZoomLevel = 1.5f;
+        public float ZoomLevel = 1f;
 
         public int totalScore;
 
         private ScreenManager screenManager;
 
-        public int level = 2;
+        public int level = -1;
+        //public int level = 1;
         private bool hKeyPressed = false;
+
+        public float scalingFactor = 1;
 
         public Game1()
         {
@@ -41,67 +45,45 @@ namespace MyMonogameTest
             this.Window.AllowUserResizing = true;
             this.Window.Title = "Octocat";
 
-            ScreenWidth = graphics.PreferredBackBufferWidth;
-            ScreenHeight = graphics.PreferredBackBufferHeight;
-
             screenManager = new ScreenManager();
             Components.Add(screenManager);
 
-            //graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height; //pega altura do pc atual i think
-            //graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width; //pega largura do pc atual i think
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height; //pega altura do pc atual i think
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width; //pega largura do pc atual i think
+
+            ScreenWidth = graphics.PreferredBackBufferWidth;
+            ScreenHeight = graphics.PreferredBackBufferHeight;
+
             //base.Window.IsBorderless = true;
             graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
-            Input.UpMove = new Keys[] { Keys.Up, Keys.W , Keys.Space};
+            Input.UpMove = new Keys[] { Keys.Up, Keys.W, Keys.Space };
             Input.DownMove = new Keys[] { Keys.Down, Keys.S };
             Input.LeftMove = new Keys[] { Keys.Left, Keys.A };
             Input.RightMove = new Keys[] { Keys.Right, Keys.D };
             Input.Fight = new Keys[] { Keys.D4, Keys.U };
             Input.Portal = new Keys[] { Keys.D1, Keys.P };
+
+            // Calculate the scaling factor based on the screen dimensions
+            // Set the appropriate scaling factor based on the minimum scaling axis
+            scalingFactor = Math.Min(GraphicsDevice.Viewport.Width / 800, GraphicsDevice.Viewport.Height / 480) * 1.1f;
+
             base.Initialize();
-            //LoadMenu();
-            LoadLevel2();
         }
 
         protected override void LoadContent()
         {
             //to draw
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //load Level
+            ChangeLevel();
         }
 
-        private void LoadMenu()
-        {
-            screenManager.LoadScreen(new Menu(this), new FadeTransition(GraphicsDevice, Color.White));
-        }
 
-        private void LoadLevel1()
-        {
-            screenManager.LoadScreen(new Level1(this, spriteBatch), new FadeTransition(GraphicsDevice, Color.White));
-        }
-
-        private void LoadLevel2()
-        {
-            screenManager.LoadScreen(new Level2(this, spriteBatch), new FadeTransition(GraphicsDevice, Color.White));
-        }
-
-        private void LoadLevel3()
-        {
-            screenManager.LoadScreen(new Level3(this), new FadeTransition(GraphicsDevice, Color.White));
-        }
-
-        private void LoadLevel4()
-        {
-            screenManager.LoadScreen(new Level4(this), new FadeTransition(GraphicsDevice, Color.White));
-        }
-
-        private void LoadLevel5()
-        {
-            screenManager.LoadScreen(new Level5(this), new FadeTransition(GraphicsDevice, Color.White));
-        }
-        
         protected override void Update(GameTime gameTime)
         {
             //clica para sair do jogo
@@ -115,29 +97,34 @@ namespace MyMonogameTest
                 hKeyPressed = false;
 
             base.Update(gameTime);
-
         }
 
-        protected void ChangeLevel()
+        public void ChangeLevel()
         {
             hKeyPressed = true;
             level++;
+
+            Transition levelTransition = new FadeTransition(GraphicsDevice, Color.White);
+
             switch (level)
             {
+                case 0:
+                    screenManager.LoadScreen(new Menu(this), levelTransition);
+                    break;
                 case 1:
-                    LoadLevel1();
+                    screenManager.LoadScreen(new Level1(this, spriteBatch), levelTransition);
                     break;
                 case 2:
-                    LoadLevel2();
+                    screenManager.LoadScreen(new Level2(this, spriteBatch), levelTransition);
                     break;
                 case 3:
-                    LoadLevel3();
+                    screenManager.LoadScreen(new Level3(this), levelTransition);
                     break;
                 case 4:
-                    LoadLevel4();
+                    screenManager.LoadScreen(new Level4(this), levelTransition);
                     break;
                 case 5:
-                    LoadLevel5();
+                    screenManager.LoadScreen(new Level5(this), levelTransition);
                     break;
             }
         }

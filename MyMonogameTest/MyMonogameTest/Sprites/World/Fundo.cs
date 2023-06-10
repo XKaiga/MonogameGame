@@ -22,8 +22,7 @@ namespace MyMonogameTest.Sprites.World
         {
             game = game1;
 
-            float dif = (float)game.ScreenWidth / _texture.Width;
-            Rectangle = new Rectangle(0, 0, (int)(_texture.Width * dif), game.ScreenHeight);
+            Rectangle = new Rectangle(0, 0, game.ScreenWidth, game.ScreenHeight);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
