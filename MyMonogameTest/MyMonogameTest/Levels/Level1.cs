@@ -79,8 +79,8 @@ namespace MyMonogameTest.Levels
                 if (sprite is Player player)
                 {
                     player.MouseMove(gameTime, spritesToAdd);
-                    if (player.Position.Y < 100)
-                        player.Position.Y = 100;
+                    if (player.Position.Y < 100 * (game.scalingFactor + 0.8f))
+                        player.Position.Y = 100 * (game.scalingFactor + 0.8f);
                 }
 
                 //get sprites to be removed

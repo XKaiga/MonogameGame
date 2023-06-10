@@ -135,7 +135,7 @@ namespace MyMonogameTest.Sprites
 
             Speed = 450f * game.scalingFactor;
             breakSpeed = Speed;
-            distanceToTargetBreak = game.level == 1 ? 100 : 58;
+            distanceToTargetBreak = game.level == 1 ? 100*game.scalingFactor : 58;
 
             jumpForce *= game.scalingFactor;
             jumpSpeed *= game.scalingFactor;
@@ -370,7 +370,7 @@ namespace MyMonogameTest.Sprites
             {
                 mouseClicked = false;
                 ResetMouseMove();
-                mousePosition = new Vector2(mouseState.X, (game.level == 1 && mouseState.Y < 100) ? 100 : mouseState.Y);
+                mousePosition = new Vector2(mouseState.X, (game.level == 1 && mouseState.Y < 100 * (game.scalingFactor + 0.8f)) ? 100 * (game.scalingFactor + 0.8f) : mouseState.Y);
                 direction = mousePosition - Position;
                 mouseMoveState = MouseMoveState.Moving;
             }
