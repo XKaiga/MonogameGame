@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/earth_background2.png</SourceFile>
-  <SourceTime>2023-06-08T11:39:08.1876448+01:00</SourceTime>
-  <DestFile>C:/Aulas/Técnicas/JogoMonogame/MonogameGame/MyMonogameTest/MyMonogameTest/Content/bin/DesktopGL/Content/earth_background2.xnb</DestFile>
-  <DestTime>2023-06-10T23:22:49.8280589+01:00</DestTime>
+  <SourceFile>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/earth_background2.png</SourceFile>
+  <SourceTime>2023-05-29T20:49:30.4843978+01:00</SourceTime>
+  <DestFile>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/bin/DesktopGL/Content/earth_background2.xnb</DestFile>
+  <DestTime>2023-06-11T00:01:11.0268171+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T12:44:56+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

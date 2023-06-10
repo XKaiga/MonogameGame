@@ -56,7 +56,7 @@ namespace MyMonogameTest
             ScreenWidth = graphics.PreferredBackBufferWidth;
             ScreenHeight = graphics.PreferredBackBufferHeight;
 
-            //base.Window.IsBorderless = true;
+            base.Window.IsBorderless = true;
             graphics.ApplyChanges();
         }
 
