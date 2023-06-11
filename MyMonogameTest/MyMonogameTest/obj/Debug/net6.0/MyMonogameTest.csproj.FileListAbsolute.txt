@@ -14,7 +14,6 @@ D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Cont
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\movimento_6.xnb
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\parado_1.xnb
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\parado_2.xnb
-D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\plataforma_rosa.xnb
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal_1.xnb
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal_2.xnb
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal_3.xnb

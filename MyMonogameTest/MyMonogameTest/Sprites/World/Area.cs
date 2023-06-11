@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MyMonogameTest.Sprites;
 using MyMonogameTest.Models;
 using System.Reflection.Metadata;
@@ -15,7 +13,7 @@ namespace MyMonogameTest.Sprites.World
 {
     enum AreaType
     {
-        nextLevel
+        nextLevel, collectible
     }
 
     class Area : Sprite
@@ -24,17 +22,15 @@ namespace MyMonogameTest.Sprites.World
 
         private AreaType type;
 
-        private int height;
-        private int width;
-
         public Area(Texture2D texture, Game1 game, Vector2 position, int width, int height, AreaType type) : base(texture)
         {
             Position = position;
-            this.width = width;
-            this.height = height;
             this.type = type;
             this.game = game;
+
+            Rectangle = new Rectangle((int)Position.X, (int)Position.Y, width, height);
         }
+
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
         {
             foreach (var sprite in sprites)
@@ -50,6 +46,10 @@ namespace MyMonogameTest.Sprites.World
                         case AreaType.nextLevel:
                             game.ChangeLevel();
                             break;
+                        case AreaType.collectible:
+                            this.IsRemoved = true;
+                            game.currScore++; 
+                            break;
                     }
                 }
             }
@@ -57,8 +57,8 @@ namespace MyMonogameTest.Sprites.World
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Rectangle = new Rectangle((int)Position.X, (int)Position.Y, width, height);
-            spriteBatch.Draw(_texture, Rectangle, new Rectangle(0, 0, Rectangle.X, Rectangle.Y), Color.White * 0.5f);
+            Color color = type == AreaType.nextLevel? Color.White * 0.5f : Color.White;
+            spriteBatch.Draw(_texture, Rectangle, color);
         }
     }
 }

@@ -24,10 +24,12 @@ namespace MyMonogameTest
 
         public int ScreenWidth;
         public int ScreenHeight;
-        //public float ZoomLevel = 1.5f;
-        public float ZoomLevel = 1f;
+        //public float ZoomLevel = 2f;
+        public float ZoomLevel = 2f;
 
-        public int totalScore;
+        public int totalScore = 10;
+        public int currScore = 0;
+
         public Song music;
         public bool isFirstMusic = false;
         private ScreenManager screenManager;
@@ -113,6 +115,8 @@ namespace MyMonogameTest
         {
             hKeyPressed = true;
             level++;
+
+            currScore = 0;
 
             Transition levelTransition = new FadeTransition(GraphicsDevice, Color.White);
 

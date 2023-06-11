@@ -20,13 +20,11 @@ namespace MyMonogameTest.Sprites
 {
     enum enemyType
     {
-        follow, shooter, followShooter
+        follow, shooter, followShooter, bomb
     }
 
     class Enemy : Sprite
     {
-        public float a;
-
         private Game1 game;
 
         public Texture2D enemyTexStart;
@@ -37,6 +35,9 @@ namespace MyMonogameTest.Sprites
         private int damage;
 
         private enemyType type;
+
+        private float scaleX;
+        private float scaleY;
 
         #region Weapon
 
@@ -50,8 +51,15 @@ namespace MyMonogameTest.Sprites
 
         #endregion
 
-        public Enemy(Texture2D texture, Game1 game, Vector2 position, int damage, enemyType type) : base(texture)
+        public Enemy(Texture2D texture, Game1 game, Vector2 position, int damage, enemyType type, Vector2 size) : base(texture)
         {
+            if (type == enemyType.bomb)
+            {
+                scaleX = size.X / Rectangle.Width * game.scalingFactor;
+                scaleY = size.Y / Rectangle.Height * game.scalingFactor;
+                Rectangle = new Rectangle((int)position.X, (int)position.Y, (int)(size.X / 1.3f * game.scalingFactor), (int)(size.Y / 1.3f * game.scalingFactor));
+                Origin = size / 2;
+            }
             this.game = game;
 
             this.damage = damage;
@@ -64,6 +72,7 @@ namespace MyMonogameTest.Sprites
             Health = 8;
 
             Speed = type == enemyType.follow ? 250f : 165f;
+
             weaponSpeed = type == enemyType.shooter ? 200f : 200f;
 
             Speed *= game.scalingFactor;
@@ -175,8 +184,10 @@ namespace MyMonogameTest.Sprites
             //invert sprite?
             SpriteEffects effects = movingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
+            var drawPosition = type == enemyType.bomb ? Position : Position + Origin;
+
             // Desenhe o sprite
-            spriteBatch.Draw(_texture, Position + Origin, null, Color.White, 0f, Origin, 1f, effects, 0f);
+            spriteBatch.Draw(_texture, drawPosition, null, Color.White, 0f, Origin, type == enemyType.bomb ? new Vector2(scaleX, scaleY) : Vector2.One, effects, 0f);
         }
     }
 }

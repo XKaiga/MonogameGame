@@ -38,7 +38,6 @@
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/music.wma</File>
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/parado_1.png</File>
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/parado_2.png</File>
-    <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/plataforma_rosa.png</File>
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_1.png</File>
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_2.png</File>
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/portal_3.png</File>
@@ -50,7 +49,6 @@
     <File>D:/Repositories/MonogameGame/MyMonogameTest/MyMonogameTest/Content/yoyo.png</File>
   </SourceFiles>
   <DestFiles>
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

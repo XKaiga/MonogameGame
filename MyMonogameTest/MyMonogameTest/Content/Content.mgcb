@@ -386,12 +386,6 @@
 /processorParam:Quality=Best
 /build:music.wma
 
-#begin music.wma
-/importer:WmaImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:music.wma
-
 #begin parado_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -415,18 +409,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:parado_2.png
-
-#begin plataforma_rosa.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:plataforma_rosa.png
 
 #begin portal_1.png
 /importer:TextureImporter

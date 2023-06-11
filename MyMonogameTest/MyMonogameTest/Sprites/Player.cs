@@ -122,20 +122,20 @@ namespace MyMonogameTest.Sprites
         #endregion
 
 
-        public Player(Texture2D texture, Game1 game) : base(texture)
+        public Player(Texture2D texture, Game1 game, Vector2 position) : base(texture)
         {
-
             this.game = game;
             Content = game.Content;
 
             playerTexStart = texture;
-            Position = new Vector2(100, game.ScreenHeight - this.Rectangle.Height);
+
+            Position = position;
 
             Health = 3;
 
             Speed = 450f * game.scalingFactor;
             breakSpeed = Speed;
-            distanceToTargetBreak = game.level == 1 ? 100*game.scalingFactor : 58;
+            distanceToTargetBreak = game.level == 1 ? 100 * game.scalingFactor : 58;
 
             jumpForce *= game.scalingFactor;
             jumpSpeed *= game.scalingFactor;
@@ -214,8 +214,12 @@ namespace MyMonogameTest.Sprites
 
             // Keep the sprite on the screen
             Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(game.ScreenWidth - this.Rectangle.Width, game.ScreenHeight - this.Rectangle.Height));
+            //no chão
             if (Position.Y == game.ScreenHeight - this.Rectangle.Height)
                 gravityOn = false;
+            //no teto
+            else if (Position.Y == 0)
+                TurnGravityOn();
 
 
             //animation
@@ -370,11 +374,11 @@ namespace MyMonogameTest.Sprites
             {
                 mouseClicked = false;
                 ResetMouseMove();
-                mousePosition = new Vector2(mouseState.X, 
-                    (game.level == 1 && mouseState.Y < (100 * (game.scalingFactor + 0.4f * game.scalingFactor - 0.4f))) ? 
-                                            100 * (game.scalingFactor + 0.4f * game.scalingFactor - 0.4f) : 
+                mousePosition = new Vector2(mouseState.X,
+                    (game.level == 1 && mouseState.Y < (100 * (game.scalingFactor + 0.4f * game.scalingFactor - 0.4f))) ?
+                                            100 * (game.scalingFactor + 0.4f * game.scalingFactor - 0.4f) :
                                             mouseState.Y);
-                direction = mousePosition - Position;
+                direction = mousePosition - Position-Origin;
                 mouseMoveState = MouseMoveState.Moving;
             }
 

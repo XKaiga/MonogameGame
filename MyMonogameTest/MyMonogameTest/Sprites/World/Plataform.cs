@@ -15,14 +15,28 @@ namespace MyMonogameTest.Sprites.World
 {
     class Plataform : Sprite
     {
-        private int height;
-        private int width;
+        private Game1 game;
 
-        public Plataform(Texture2D texture, Vector2 position, int width, int height) : base(texture)
+        public Plataform(Texture2D texture, Game1 game, Vector2 position, int width, int height) : base(texture)
         {
+            this.game = game;
+
             Position = position;
-            this.width = width;
-            this.height = height;
+
+            Rectangle = new Rectangle((int)Position.X, (int)Position.Y,
+                (int)(width * game.scalingFactor),
+                game.level == 2 ? (int)(height / 2 * game.scalingFactor) : (int)(height * game.scalingFactor));
+        }
+
+        public Plataform(Texture2D texture, Game1 game, Vector2 position, Vector2 size) : base(texture)
+        {
+            this.game = game;
+
+            Position = position;
+
+            Rectangle = new Rectangle((int)Position.X, (int)Position.Y, 
+                (int)(size.X * game.scalingFactor), 
+                game.level == 2 ? (int)(size.Y / 2 * game.scalingFactor) : (int)(size.Y * game.scalingFactor));
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
@@ -31,9 +45,7 @@ namespace MyMonogameTest.Sprites.World
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Rectangle = new Rectangle((int)Position.X, (int)Position.Y, width, height);
-            spriteBatch.Draw(_texture, Rectangle/*, new Rectangle(0,0, Rectangle.X,Rectangle.Y)*/, Color.White);
-            
+            spriteBatch.Draw(_texture, new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width, game.level == 2 ? Rectangle.Height*2: Rectangle.Height), Color.White);
         }
     }
 }

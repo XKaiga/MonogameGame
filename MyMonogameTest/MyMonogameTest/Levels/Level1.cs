@@ -17,6 +17,7 @@ namespace MyMonogameTest.Levels
         public Texture2D plataformTex;
         public Texture2D fundoWater;
         public Texture2D mina;
+        public Texture2D coracao;
 
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
@@ -26,7 +27,7 @@ namespace MyMonogameTest.Levels
         public Level1(Game1 game, SpriteBatch spriteBatch) : base(game)
         {
             this.game = game;
-            this.game.totalScore = 0;
+            this.game.totalScore = 5;
             this.spriteBatch = spriteBatch;
         }
 
@@ -51,19 +52,41 @@ namespace MyMonogameTest.Levels
 
             spriteFont = Content.Load<SpriteFont>("File");
 
-
             mina = Content.Load<Texture2D>("mina");
+            
+            coracao = Content.Load<Texture2D>("23");
         }
 
         private void LoadSprites()
         {
+            var player = new Player(playerTexStart, game, new Vector2(0, game.ScreenHeight/2));
+
+            int heartSize = (int)(player.Rectangle.Width / 2f * game.scalingFactor);
+
             //all "objects"
             _sprites = new List<Sprite>()
             {
-                //create Player
                 new Fundo(fundoWater, game),
-                new Player(playerTexStart, game),
-                new Area(fundoWater, game, new Vector2(game.ScreenWidth/5, (float)game.ScreenHeight/3f), game.ScreenWidth/4, game.ScreenHeight/7, AreaType.nextLevel)
+
+                //minas
+                new Enemy(mina, game, new Vector2(game.ScreenWidth-player.Rectangle.Width*1.5f, game.ScreenHeight/2.75f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(game.ScreenWidth*0.8f, game.ScreenHeight/2.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(game.ScreenWidth*0.70f, game.ScreenHeight/2f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(game.ScreenWidth*0.70f, game.ScreenHeight/1.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(game.ScreenWidth*0.45f, game.ScreenHeight-player.Rectangle.Height*1.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(game.ScreenWidth*0.45f, game.ScreenHeight/3.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(game.ScreenWidth*0.37f, game.ScreenHeight/1.33f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(game.ScreenWidth*0.3f, game.ScreenHeight/1.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(game.ScreenWidth*0.15f, game.ScreenHeight/3.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                new Enemy(mina, game, new Vector2(0, game.ScreenHeight/1.5f), -1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+                
+                new Area(coracao, game, new Vector2(game.ScreenWidth-heartSize, game.ScreenHeight/4f),heartSize,heartSize,AreaType.collectible),
+                new Area(coracao, game, new Vector2(game.ScreenWidth-player.Rectangle.Width*1.5f, game.ScreenHeight/1.75f),heartSize,heartSize,AreaType.collectible),
+                new Area(coracao, game, new Vector2(game.ScreenWidth*0.45f, game.ScreenHeight/1.4f),heartSize,heartSize,AreaType.collectible),
+                new Area(coracao, game, new Vector2(game.ScreenWidth*0.35f, game.ScreenHeight/3.5f),heartSize,heartSize,AreaType.collectible),
+                new Area(coracao, game, new Vector2(0, game.ScreenHeight - heartSize),heartSize,heartSize,AreaType.collectible),
+                //create Player
+                player
             };
         }
 
@@ -105,10 +128,10 @@ namespace MyMonogameTest.Levels
             foreach (var spr in _sprites)
                 if (spr is Player player)
                 {
-                    spriteBatch.DrawString(spriteFont, "   " + game.totalScore + " / 10 Pontos", new Vector2(0, 30), Color.Black);
+                    spriteBatch.DrawString(spriteFont, $"   {game.currScore} / {game.totalScore} Pontos", new Vector2(0, 30), Color.Black);
                     spriteBatch.DrawString(spriteFont, " X:  " + Mouse.GetState().X + " Y:" + Mouse.GetState().Y, new Vector2(0, 50), Color.Black);
                     spriteBatch.DrawString(spriteFont, "" + player.mousePosition, new Vector2(0, 70), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "" + player.Position, new Vector2(0, 90), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "" + player.Health, new Vector2(0, 90), Color.Black);
                     spriteBatch.DrawString(spriteFont, "" + player.distanceToTarget, new Vector2(0, 140), Color.Black);
                     spriteBatch.DrawString(spriteFont, "" + game.scalingFactor, new Vector2(0, 160), Color.Black);
 

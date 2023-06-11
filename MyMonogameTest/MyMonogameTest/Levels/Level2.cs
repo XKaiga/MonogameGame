@@ -27,23 +27,19 @@ namespace MyMonogameTest.Levels
 
         private List<Sprite> _sprites;
 
+        private bool lvlUnlock = false;
+
         public Level2(Game1 game, SpriteBatch spriteBatch) : base(game)
         {
             this.game = game;
-            this.game.totalScore = 0;
             this.spriteBatch = spriteBatch;
+
+            game.totalScore = 7;
         }
 
         public override void LoadContent()
         {
-
             LoadStartContent();
-
-
-            fundoEarth = Content.Load<Texture2D>("earth_background");
-            fundoEarth2 = Content.Load<Texture2D>("earth_background2");
-            plataforma = Content.Load<Texture2D>("earth_platform");
-            coracao = Content.Load<Texture2D>("10");
 
             LoadSprites();
 
@@ -54,29 +50,60 @@ namespace MyMonogameTest.Levels
 
         private void LoadStartContent()
         {
-            //create a texture to start the player
+            //text
+            spriteFont = Content.Load<SpriteFont>("File");
+
+            //background
+            fundoEarth = Content.Load<Texture2D>("earth_background");
+            fundoEarth2 = Content.Load<Texture2D>("earth_background2");
+
+            //create a texture to start the player and enemies
             playerTexStart = Content.Load<Texture2D>("parado_1");
             enemyTexStart = Content.Load<Texture2D>("parado_2");
 
-            spriteFont = Content.Load<SpriteFont>("File");
+            //world
+            plataforma = Content.Load<Texture2D>("earth_platform");
+            coracao = Content.Load<Texture2D>("23");
         }
 
         private void LoadSprites()
         {
-            _Player = new Player(playerTexStart, game);
+            _Player = new Player(playerTexStart, game, new Vector2(100, game.ScreenHeight - playerTexStart.Height));
+
+            Vector2 platSize = new Vector2(150, 70);
 
             //all "objects"
             _sprites = new List<Sprite>()
             {
-                //create Player
+                //create background
                 new Fundo(fundoEarth, game),
+                //plataforms from top to bottom
+                new Plataform(plataforma, game, new Vector2(game.ScreenWidth/2.2f-platSize.X/2, game.ScreenHeight/6.4f-platSize.Y/4),platSize),
+                new Plataform(plataforma, game, new Vector2(game.ScreenWidth/1.5f+platSize.X/2, game.ScreenHeight/4.5f-platSize.Y/4),platSize),
+                new Plataform(plataforma, game, new Vector2(game.ScreenWidth/9-platSize.X/2, game.ScreenHeight/4.2f-platSize.Y/4),platSize),
+                new Plataform(plataforma, game, new Vector2(game.ScreenWidth/3.5f-platSize.X/2, game.ScreenHeight/2-platSize.Y/4),platSize),
+                new Plataform(plataforma, game, new Vector2(game.ScreenWidth/1.5f+platSize.X/2, game.ScreenHeight/1.9f-platSize.Y/4),platSize),
+                new Plataform(plataforma, game, new Vector2(game.ScreenWidth/2-platSize.X/2, game.ScreenHeight/1.3f-platSize.Y/4),platSize),
+                new Plataform(plataforma, game, new Vector2(0, game.ScreenHeight/1.2f-platSize.Y/4),platSize),
+                //create enemy
+                new Enemy(enemyTexStart, game, new Vector2(game.ScreenWidth/2, game.ScreenHeight/2),1,enemyType.follow, new Vector2(enemyTexStart.Width, enemyTexStart.Height)),
+                //create Player
                 _Player
             };
+
+            var hearts = new List<Sprite>();
+            foreach (var pltf in _sprites)
+                if (pltf is Plataform)
+                    hearts.Add(new Area(coracao, game, new Vector2(pltf.Position.X + pltf.Rectangle.Width / 2f - _Player.Rectangle.Width / 2f / 2f * game.scalingFactor, pltf.Position.Y - _Player.Rectangle.Height / 2f * game.scalingFactor), (int)(_Player.Rectangle.Width / 2f * game.scalingFactor), (int)(_Player.Rectangle.Height / 2f * game.scalingFactor), AreaType.collectible));
+
+            _sprites.AddRange(hearts);
         }
 
 
         public override void Update(GameTime gameTime)
         {
+            lvlUnlock = game.currScore == game.totalScore;
+
             CalculateTranslation();
 
             List<Sprite> spritesToRemove = new List<Sprite>();
@@ -124,20 +151,12 @@ namespace MyMonogameTest.Levels
                 {
                     // Apply the inverse transformation to the position
                     Vector2 healthPosition = Vector2.Transform(new Vector2(10, 10), Matrix.Invert(_viewMatrix));
-                    Vector2 scorePosition = Vector2.Transform(new Vector2(10, 30), Matrix.Invert(_viewMatrix));
-                    Vector2 testPosition = Vector2.Transform(new Vector2(10, 50), Matrix.Invert(_viewMatrix));
+                    Vector2 scorePosition = Vector2.Transform(new Vector2(10, 40), Matrix.Invert(_viewMatrix));
+                    Vector2 testPosition = Vector2.Transform(new Vector2(10, 70), Matrix.Invert(_viewMatrix));
 
                     spriteBatch.DrawString(spriteFont, "   Vidas: " + player.Health.ToString(), healthPosition, Color.Black);
-                    spriteBatch.DrawString(spriteFont, "   " + game.totalScore + " / 10 Pontos", scorePosition, Color.Black);
-                    spriteBatch.DrawString(spriteFont, player.Imune.ToString(), testPosition, Color.Black);
-                }
-                else if (sprite is Enemy enemy)
-                {
-                    spriteBatch.DrawString(spriteFont, enemy.a.ToString(), new Vector2(200, 200), Color.Black);
-                }
-                else if (sprite is Area)
-                {
-                    spriteBatch.DrawString(spriteFont, "abc", new Vector2(200, 300), Color.Black);
+                    spriteBatch.DrawString(spriteFont, $"    {game.currScore} / {game.totalScore} Pontos", scorePosition, Color.Black);
+                    spriteBatch.DrawString(spriteFont, $"{lvlUnlock}", testPosition, Color.Black);
                 }
             }
 
