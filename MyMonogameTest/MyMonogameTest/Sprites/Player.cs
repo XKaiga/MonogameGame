@@ -370,7 +370,10 @@ namespace MyMonogameTest.Sprites
             {
                 mouseClicked = false;
                 ResetMouseMove();
-                mousePosition = new Vector2(mouseState.X, (game.level == 1 && mouseState.Y < 100 * (game.scalingFactor + 0.8f)) ? 100 * (game.scalingFactor + 0.8f) : mouseState.Y);
+                mousePosition = new Vector2(mouseState.X, 
+                    (game.level == 1 && mouseState.Y < (100 * (game.scalingFactor + 0.4f * game.scalingFactor - 0.4f))) ? 
+                                            100 * (game.scalingFactor + 0.4f * game.scalingFactor - 0.4f) : 
+                                            mouseState.Y);
                 direction = mousePosition - Position;
                 mouseMoveState = MouseMoveState.Moving;
             }

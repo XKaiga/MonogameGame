@@ -79,8 +79,8 @@ namespace MyMonogameTest.Levels
                 if (sprite is Player player)
                 {
                     player.MouseMove(gameTime, spritesToAdd);
-                    if (player.Position.Y < 100 * (game.scalingFactor + 0.8f))
-                        player.Position.Y = 100 * (game.scalingFactor + 0.8f);
+                    if (player.Position.Y < 100 * (game.scalingFactor + (0.4f * game.scalingFactor - 0.4f)))
+                        player.Position.Y = 100 * (game.scalingFactor + (0.4f * game.scalingFactor - 0.4f));
                 }
 
                 //get sprites to be removed
@@ -110,7 +110,7 @@ namespace MyMonogameTest.Levels
                     spriteBatch.DrawString(spriteFont, "" + player.mousePosition, new Vector2(0, 70), Color.Black);
                     spriteBatch.DrawString(spriteFont, "" + player.Position, new Vector2(0, 90), Color.Black);
                     spriteBatch.DrawString(spriteFont, "" + player.distanceToTarget, new Vector2(0, 140), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "" + player.breakSpeed, new Vector2(0, 160), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "" + game.scalingFactor, new Vector2(0, 160), Color.Black);
 
                     //spriteBatch.DrawString(spriteFont, player.GetFacingDirection().ToString(), new Vector2(0, 54), Color.Black);
                 }
