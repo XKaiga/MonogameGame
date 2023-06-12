@@ -8,12 +8,19 @@ using Microsoft.Xna.Framework;
 using MyMonogameTest.Sprites;
 using MyMonogameTest.Models;
 using System.Reflection.Metadata;
+using MyMonogameTest.Sprites.World;
 
 namespace MyMonogameTest.Sprites.World
 {
     enum AreaType
     {
-        nextLevel, collectible
+        nextLevel,
+        collectible,
+        buttonPlay,
+        buttonExit,
+        buttonHelp,
+        buttonOptions,
+        buttonBack
     }
 
     class Area : Sprite
@@ -48,7 +55,34 @@ namespace MyMonogameTest.Sprites.World
                             break;
                         case AreaType.collectible:
                             this.IsRemoved = true;
-                            game.currScore++; 
+                            game.currScore++;
+                            break;
+                    }
+                }
+
+                //buttons
+                if (Mouse.GetState().LeftButton is ButtonState.Pressed && this.Rectangle.Contains(Mouse.GetState().Position))
+                {
+                    switch (type)
+                    {
+                        case AreaType.buttonPlay:
+                            game.level = -1;
+                            game.ChangeLevel();
+                            break;
+                        case AreaType.buttonExit:
+                            game.Exit();
+                            break;
+                        case AreaType.buttonHelp:
+                            game.level = -3;
+                            game.ChangeLevel();
+                            break;
+                        case AreaType.buttonOptions:
+                            game.level = -4;
+                            game.ChangeLevel();
+                            break;
+                        case AreaType.buttonBack:
+                            game.level = -2;
+                            game.ChangeLevel();
                             break;
                     }
                 }
@@ -57,7 +91,7 @@ namespace MyMonogameTest.Sprites.World
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Color color = type == AreaType.nextLevel? Color.White * 0.5f : Color.White;
+            Color color = type == AreaType.nextLevel ? Color.White * 0.5f : Color.White;
             spriteBatch.Draw(_texture, Rectangle, color);
         }
     }

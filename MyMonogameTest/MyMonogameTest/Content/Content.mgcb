@@ -97,6 +97,18 @@
 /processorParam:TextureFormat=Color
 /build:18.png
 
+#begin 20.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:20.png
+
 #begin 23.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -505,6 +517,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:portal.png
+
+#begin voltar.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:voltar.jpg
 
 #begin water_fall.png
 /importer:TextureImporter

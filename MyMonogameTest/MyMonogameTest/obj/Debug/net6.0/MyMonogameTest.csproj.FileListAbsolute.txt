@@ -65,7 +65,6 @@ C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\D
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\movimento_6.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\parado_1.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\parado_2.xnb
-C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\plataforma_rosa.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal_1.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal_2.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal_3.xnb
@@ -144,3 +143,6 @@ D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Cont
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\music.ogg
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\music.xnb
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\voltar.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\20.xnb
