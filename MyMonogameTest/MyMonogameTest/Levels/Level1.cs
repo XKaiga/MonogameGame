@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Screens;
 using MyMonogameTest.Powers;
 using MyMonogameTest.Sprites;
@@ -136,6 +137,9 @@ namespace MyMonogameTest.Levels
             {
                 showPowers = true;
                 PowerManager.portalUnlocked = true;
+                game.level = -1;
+                game.ChangeLevel();
+
                 //_sprites.Add()
             }
         }
@@ -149,8 +153,8 @@ namespace MyMonogameTest.Levels
             foreach (var spr in _sprites)
                 if (spr is Player player)
                 {
-                    spriteBatch.DrawString(spriteFont, "" + player.Health, new Vector2(10, 10), Color.Black);
-                    spriteBatch.DrawString(spriteFont, $"   {game.currScore} / {game.totalScore} Pontos", new Vector2(10, 30), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "   Vidas: " + player.Health.ToString(), new Vector2(10, 30), Color.Black);
+                    spriteBatch.DrawString(spriteFont, $"   {game.currScore} / {game.totalScore} Pontos", new Vector2(10, 60), Color.Black);
                 }
             spriteBatch.End();
         }

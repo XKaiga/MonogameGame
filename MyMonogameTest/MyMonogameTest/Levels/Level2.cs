@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Screens;
+using MyMonogameTest.Powers;
 using MyMonogameTest.Sprites;
 using MyMonogameTest.Sprites.World;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace MyMonogameTest.Levels
         public Texture2D plataforma;
         public Texture2D coracao;
 
+        public bool playerAlive;
+
         private SpriteFont spriteFont;
 
         private SpriteBatch spriteBatch;
@@ -35,6 +38,7 @@ namespace MyMonogameTest.Levels
 
             game.totalScore = 7;
 
+            game.ZoomLevel = 2f;
             game.usingMouseMovement = false;
         }
 
@@ -60,7 +64,7 @@ namespace MyMonogameTest.Levels
 
             //create a texture to start the player and enemies
             playerTexStart = Content.Load<Texture2D>("parado_1");
-            enemyTexStart = Content.Load<Texture2D>("parado_2");
+            enemyTexStart = Content.Load<Texture2D>("1");
 
             //world
             plataforma = Content.Load<Texture2D>("earth_platform");
@@ -103,6 +107,7 @@ namespace MyMonogameTest.Levels
 
         public override void Update(GameTime gameTime)
         {
+            playerAlive = false;
             lvlUnlock = game.currScore == game.totalScore;
 
             CalculateTranslation();
@@ -115,7 +120,10 @@ namespace MyMonogameTest.Levels
                 sprite.Update(gameTime, _sprites, spritesToAdd);
 
                 if (sprite is Player player)
+                {
+                    playerAlive = true;
                     player.Move(gameTime, spritesToAdd);
+                }
 
                 //get sprites to be removed
                 if (sprite.IsRemoved)
@@ -127,8 +135,20 @@ namespace MyMonogameTest.Levels
                 _sprites.Remove(spr);
             //add new sprites
             _sprites.AddRange(spritesToAdd);
+            if (!playerAlive)
+            {
+                game.level = -1;
+                game.ChangeLevel();
+            }
 
-            
+            if (game.currScore == game.totalScore)
+            {
+                PowerManager.earthUnlocked = true;
+                game.level = -1;
+                game.ChangeLevel();
+            }
+
+
         }
 
         private void CalculateTranslation()
@@ -153,13 +173,11 @@ namespace MyMonogameTest.Levels
                 if (sprite is Player player)
                 {
                     // Apply the inverse transformation to the position
-                    Vector2 healthPosition = Vector2.Transform(new Vector2(10, 10), Matrix.Invert(game._viewMatrix));
-                    Vector2 scorePosition = Vector2.Transform(new Vector2(10, 40), Matrix.Invert(game._viewMatrix));
-                    Vector2 testPosition = Vector2.Transform(new Vector2(10, 70), Matrix.Invert(game._viewMatrix));
+                    Vector2 healthPosition = Vector2.Transform(new Vector2(10, 40), Matrix.Invert(game._viewMatrix));
+                    Vector2 scorePosition = Vector2.Transform(new Vector2(10, 75), Matrix.Invert(game._viewMatrix));
 
                     spriteBatch.DrawString(spriteFont, "   Vidas: " + player.Health.ToString(), healthPosition, Color.Black);
                     spriteBatch.DrawString(spriteFont, $"    {game.currScore} / {game.totalScore} Pontos", scorePosition, Color.Black);
-                    spriteBatch.DrawString(spriteFont, $"{lvlUnlock}", testPosition, Color.Black);
                 }
             }
 

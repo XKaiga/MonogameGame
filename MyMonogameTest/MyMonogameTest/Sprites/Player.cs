@@ -185,7 +185,7 @@ namespace MyMonogameTest.Sprites
                     game.Content.Load<Texture2D>("portal_7")
             };
 
-            weaponTex = game.Content.Load<Texture2D>("yoyo");
+            weaponTex = game.Content.Load<Texture2D>("bola_terra");
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
@@ -274,10 +274,6 @@ namespace MyMonogameTest.Sprites
                             else
                                 this.Position.X += overlap.Width;
                         }
-                    }
-                    else if (sprite is Area area)
-                    {
-                        area.IsRemoved = true;
                     }
                 }
             }
@@ -424,20 +420,23 @@ namespace MyMonogameTest.Sprites
 
         private void Fight(GameTime gameTime, List<Sprite> spritesToAdd, bool mouse)
         {
-            //Fight Animation
-            if (Input.KeyPressed(Keys.F, _previousKey, _currentKey) && timeSinceLastShot >= timeBetweenShots)
+            if (PowerManager.earthUnlocked)
             {
-                spritesToAdd.Add(new Weapon(weaponTex, this, weaponDamage, GetFacingDirection(mouse)));
-                ChangeAnimationState(AnimationState.Lutar);
+                //Fight Animation
+                if (Input.KeyPressed(Keys.F, _previousKey, _currentKey) && timeSinceLastShot >= timeBetweenShots)
+                {
+                    spritesToAdd.Add(new Weapon(weaponTex, this, weaponDamage, GetFacingDirection(mouse)));
+                    ChangeAnimationState(AnimationState.Lutar);
 
-                // Reset the time since the last shot was fired
-                timeSinceLastShot = TimeSpan.Zero;
+                    // Reset the time since the last shot was fired
+                    timeSinceLastShot = TimeSpan.Zero;
 
-                //is in a static animation
-                inStaticAnimation = true;
+                    //is in a static animation
+                    inStaticAnimation = true;
+                }
+                else if (timeSinceLastShot < timeBetweenShots)
+                    timeSinceLastShot += gameTime.ElapsedGameTime; //Increment the time since the last shot was fired
             }
-            else if (timeSinceLastShot < timeBetweenShots)
-                timeSinceLastShot += gameTime.ElapsedGameTime; //Increment the time since the last shot was fired
         }
 
         private Vector2 GetFacingDirection(bool withCursor)

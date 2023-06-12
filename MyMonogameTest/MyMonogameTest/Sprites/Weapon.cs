@@ -32,7 +32,13 @@ namespace MyMonogameTest.Sprites
             velocity += direction * Speed;
 
             //scalling down
-            Rectangle = new Rectangle(Rectangle.X + Parent.Rectangle.Width / 2, Rectangle.Y + Parent.Rectangle.Height / 2, (int)(Rectangle.Width / 4.0f), (int)(Rectangle.Height / 4.0f));
+            if (parentSprite is Player) {
+                Rectangle = new Rectangle(Rectangle.X + Parent.Rectangle.Width / 2, Rectangle.Y + Parent.Rectangle.Height / 2, (int)(Rectangle.Width / 18.0f), (int)(Rectangle.Height / 18.0f));
+            }
+            else
+            {
+                Rectangle = new Rectangle(Rectangle.X + Parent.Rectangle.Width / 2, Rectangle.Y + Parent.Rectangle.Height / 2, (int)(Rectangle.Width / 4.0f), (int)(Rectangle.Height / 4.0f));
+            }
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites, List<Sprite> spritesToAdd)
@@ -42,8 +48,16 @@ namespace MyMonogameTest.Sprites
 
             foreach (var sprite in sprites)
             {
-                if (/*sprite is Player*/sprite is Enemy || sprite is Weapon || sprite is Fundo)
-                    continue;
+                if (this.Parent is Player)
+                {
+                    if (sprite is Player || sprite is Weapon || sprite is Fundo || sprite is Area)
+                        continue;
+                }
+                else
+                {
+                    if (sprite is Enemy || sprite is Weapon || sprite is Fundo || sprite is Area)
+                        continue;
+                }
 
                 // Colission
                 if (sprite.Rectangle.Intersects(this.Rectangle))

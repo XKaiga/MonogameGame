@@ -187,7 +187,7 @@ namespace MyMonogameTest.Sprites
             var drawPosition = type == enemyType.bomb ? Position : Position + Origin;
 
             // Desenhe o sprite
-            spriteBatch.Draw(_texture, drawPosition, null, Color.White, 0f, Origin, type == enemyType.bomb ? new Vector2(scaleX, scaleY) : Vector2.One, effects, 0f);
+            spriteBatch.Draw(_texture, drawPosition, null, Color.LightPink, 0f, Origin, type == enemyType.bomb ? new Vector2(scaleX, scaleY) : Vector2.One, effects, 0f);
         }
     }
 }

@@ -9,6 +9,7 @@ using MyMonogameTest.Sprites;
 using MyMonogameTest.Models;
 using System.Reflection.Metadata;
 using MyMonogameTest.Sprites.World;
+using Microsoft.Xna.Framework.Media;
 
 namespace MyMonogameTest.Sprites.World
 {
@@ -25,20 +26,27 @@ namespace MyMonogameTest.Sprites.World
         buttonLvl2,
         buttonLvl3,
         buttonLvl4,
-        buttonLvlBonus
+        buttonLvlBonus,
+        buttonBarra,
+        bola,
+        lava
     }
 
     class Area : Sprite
     {
         private Game1 game;
 
-        private AreaType type;
+        public AreaType type;
 
-        public Area(Texture2D texture, Game1 game, Vector2 position, int width, int height, AreaType type) : base(texture)
+        private int damage;
+
+        public Area(Texture2D texture, Game1 game, Vector2 position, int width, int height, AreaType type, int damage = 0) : base(texture)
         {
             Position = position;
             this.type = type;
             this.game = game;
+
+            this.damage = damage;
 
             Rectangle = new Rectangle((int)Position.X, (int)Position.Y, width, height);
         }
@@ -61,6 +69,9 @@ namespace MyMonogameTest.Sprites.World
                         case AreaType.collectible:
                             this.IsRemoved = true;
                             game.currScore++;
+                            break;
+                        case AreaType.lava:
+                            player.Health -= damage;
                             break;
                     }
                 }
@@ -100,16 +111,29 @@ namespace MyMonogameTest.Sprites.World
                             break;
                         case AreaType.buttonLvl3:
                             game.level = 2;
-                            //game.ChangeLevel();
+                            game.ChangeLevel();
                             break;
                         case AreaType.buttonLvl4:
                             game.level = 3;
-                            //game.ChangeLevel();
+                            game.ChangeLevel();
                             break;
                         case AreaType.buttonLvlBonus:
                             game.level = 4;
-                            //game.ChangeLevel();
+                            game.ChangeLevel();
                             break;
+                        case AreaType.buttonBarra:
+                            foreach (var spr in sprites)
+                            {
+                                if (spr is Area bola && bola.type == AreaType.bola)
+                                {
+                                    bola.Rectangle = new Rectangle((int)(Mouse.GetState().Position.X - bola.Rectangle.Width / 2), bola.Rectangle.Y, bola.Rectangle.Width, bola.Rectangle.Height);
+                                    MediaPlayer.Volume = (float)((bola.Rectangle.X - game.ScreenWidth / 4f) / 700f);
+                                    break;
+                                }
+                            }
+                            break;
+                        case AreaType.bola:
+                            continue;
                     }
                 }
             }

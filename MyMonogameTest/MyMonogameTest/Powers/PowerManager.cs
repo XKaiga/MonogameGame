@@ -29,7 +29,7 @@ namespace MyMonogameTest.Powers
         #endregion
 
 
-        static public bool bubleUnlocked = false;
+        static public bool earthUnlocked = false;
 
         static public void portal(GameTime gameTime, Game1 game, Player player, List<Sprite> sprites, List<Sprite> spritesToAdd)
         {

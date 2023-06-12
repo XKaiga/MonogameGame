@@ -146,3 +146,12 @@ D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Cont
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\voltar.xnb
 C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\20.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\25.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\26.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\27.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\28.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\bola_terra.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\1.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\fire_plat.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\lava.xnb
+C:\Aulas\Técnicas\JogoMonogame\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\volcao.xnb
