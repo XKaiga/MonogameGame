@@ -10,8 +10,15 @@ using MyMonogameTest.Sprites.World;
 
 namespace MyMonogameTest.Sprites
 {
+    enum SpriteType
+    {
+        Child, Portal
+    }
+
     class Sprite
     {
+        public SpriteType Type = SpriteType.Child;
+
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
 

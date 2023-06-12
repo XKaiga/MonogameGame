@@ -2,16 +2,20 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Screens;
+using MyMonogameTest.Powers;
 using MyMonogameTest.Sprites;
 using MyMonogameTest.Sprites.World;
 using System.Collections.Generic;
 
 namespace MyMonogameTest.Levels
 {
-    class Level1: GameScreen
+    class Level1 : GameScreen
     {
         private new Game1 game;
 
+        private bool playerAlive = true;
+
+        private bool showPowers = false;
 
         public Texture2D playerTexStart;
         public Texture2D plataformTex;
@@ -29,6 +33,7 @@ namespace MyMonogameTest.Levels
             this.game = game;
             this.game.totalScore = 5;
             this.spriteBatch = spriteBatch;
+            game.usingMouseMovement = true;
         }
 
         public override void LoadContent()
@@ -53,13 +58,13 @@ namespace MyMonogameTest.Levels
             spriteFont = Content.Load<SpriteFont>("File");
 
             mina = Content.Load<Texture2D>("mina");
-            
+
             coracao = Content.Load<Texture2D>("23");
         }
 
         private void LoadSprites()
         {
-            var player = new Player(playerTexStart, game, new Vector2(0, game.ScreenHeight/2));
+            var player = new Player(playerTexStart, game, new Vector2(0, game.ScreenHeight / 2));
 
             int heartSize = (int)(player.Rectangle.Width / 2f * game.scalingFactor);
 
@@ -78,8 +83,8 @@ namespace MyMonogameTest.Levels
                 new Enemy(mina, game, new Vector2(game.ScreenWidth*0.37f, game.ScreenHeight/1.33f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
                 new Enemy(mina, game, new Vector2(game.ScreenWidth*0.3f, game.ScreenHeight/1.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
                 new Enemy(mina, game, new Vector2(game.ScreenWidth*0.15f, game.ScreenHeight/3.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
-                new Enemy(mina, game, new Vector2(0, game.ScreenHeight/1.5f), -1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
-                
+                new Enemy(mina, game, new Vector2(0, game.ScreenHeight/1.5f), 1, enemyType.bomb, new Vector2(player.Rectangle.Width*1.5f,player.Rectangle.Height*1.5f)),
+
                 new Area(coracao, game, new Vector2(game.ScreenWidth-heartSize, game.ScreenHeight/4f),heartSize,heartSize,AreaType.collectible),
                 new Area(coracao, game, new Vector2(game.ScreenWidth-player.Rectangle.Width*1.5f, game.ScreenHeight/1.75f),heartSize,heartSize,AreaType.collectible),
                 new Area(coracao, game, new Vector2(game.ScreenWidth*0.45f, game.ScreenHeight/1.4f),heartSize,heartSize,AreaType.collectible),
@@ -92,6 +97,8 @@ namespace MyMonogameTest.Levels
 
         public override void Update(GameTime gameTime)
         {
+            playerAlive = false;
+
             List<Sprite> spritesToRemove = new List<Sprite>();
             List<Sprite> spritesToAdd = new List<Sprite>();
             foreach (var sprite in _sprites)
@@ -101,6 +108,7 @@ namespace MyMonogameTest.Levels
 
                 if (sprite is Player player)
                 {
+                    playerAlive = true;
                     player.MouseMove(gameTime, spritesToAdd);
                     if (player.Position.Y < 100 * (game.scalingFactor + (0.4f * game.scalingFactor - 0.4f)))
                         player.Position.Y = 100 * (game.scalingFactor + (0.4f * game.scalingFactor - 0.4f));
@@ -117,6 +125,19 @@ namespace MyMonogameTest.Levels
 
             //add new sprites
             _sprites.AddRange(spritesToAdd);
+
+            if (!playerAlive)
+            {
+                game.level = -1;
+                game.ChangeLevel();
+            }
+
+            if (game.currScore == game.totalScore)
+            {
+                showPowers = true;
+                PowerManager.portalUnlocked = true;
+                //_sprites.Add()
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -128,19 +149,8 @@ namespace MyMonogameTest.Levels
             foreach (var spr in _sprites)
                 if (spr is Player player)
                 {
-                    spriteBatch.DrawString(spriteFont, $"   {game.currScore} / {game.totalScore} Pontos", new Vector2(0, 30), Color.Black);
-                    spriteBatch.DrawString(spriteFont, " X:  " + Mouse.GetState().X + " Y:" + Mouse.GetState().Y, new Vector2(0, 50), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "" + player.mousePosition, new Vector2(0, 70), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "" + player.Health, new Vector2(0, 90), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "" + player.distanceToTarget, new Vector2(0, 140), Color.Black);
-                    spriteBatch.DrawString(spriteFont, "" + game.scalingFactor, new Vector2(0, 160), Color.Black);
-
-                    //spriteBatch.DrawString(spriteFont, player.GetFacingDirection().ToString(), new Vector2(0, 54), Color.Black);
-                }
-                else if (spr is Weapon weapon)
-                {
-                    //spriteBatch.DrawString(spriteFont, weapon.Position.ToString(), new Vector2(0, 54), Color.Black);
-                    //spriteBatch.DrawString(spriteFont, "   " + totalScore + " / 10 Pontos", new Vector2(0, 76), Color.Black);
+                    spriteBatch.DrawString(spriteFont, "" + player.Health, new Vector2(10, 10), Color.Black);
+                    spriteBatch.DrawString(spriteFont, $"   {game.currScore} / {game.totalScore} Pontos", new Vector2(10, 30), Color.Black);
                 }
             spriteBatch.End();
         }

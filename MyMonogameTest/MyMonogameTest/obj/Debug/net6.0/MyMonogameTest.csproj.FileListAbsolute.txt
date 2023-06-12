@@ -143,3 +143,4 @@ D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Cont
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\fundo_espaco.xnb
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\music.ogg
 D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\music.xnb
+D:\Repositories\MonogameGame\MyMonogameTest\MyMonogameTest\bin\Debug\net6.0\Content\portal.xnb

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Screens;
 using MyMonogameTest.Sprites;
 using MyMonogameTest.Sprites.World;
@@ -9,8 +10,6 @@ namespace MyMonogameTest.Levels
 {
     public class Level2 : GameScreen
     {
-        private Matrix _viewMatrix;
-
         private new Game1 game;
         private Player _Player;
 
@@ -35,6 +34,8 @@ namespace MyMonogameTest.Levels
             this.spriteBatch = spriteBatch;
 
             game.totalScore = 7;
+
+            game.usingMouseMovement = false;
         }
 
         public override void LoadContent()
@@ -126,6 +127,8 @@ namespace MyMonogameTest.Levels
                 _sprites.Remove(spr);
             //add new sprites
             _sprites.AddRange(spritesToAdd);
+
+            
         }
 
         private void CalculateTranslation()
@@ -137,12 +140,12 @@ namespace MyMonogameTest.Levels
             var _translation = Matrix.CreateTranslation(dx, dy, 0f);
 
             var zoomMatrix = Matrix.CreateScale(game.ZoomLevel);
-            _viewMatrix = zoomMatrix * _translation;
+            game._viewMatrix = zoomMatrix * _translation;
         }
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin(transformMatrix: _viewMatrix);
+            spriteBatch.Begin(transformMatrix: game._viewMatrix);
 
             foreach (var sprite in _sprites)
             {
@@ -150,9 +153,9 @@ namespace MyMonogameTest.Levels
                 if (sprite is Player player)
                 {
                     // Apply the inverse transformation to the position
-                    Vector2 healthPosition = Vector2.Transform(new Vector2(10, 10), Matrix.Invert(_viewMatrix));
-                    Vector2 scorePosition = Vector2.Transform(new Vector2(10, 40), Matrix.Invert(_viewMatrix));
-                    Vector2 testPosition = Vector2.Transform(new Vector2(10, 70), Matrix.Invert(_viewMatrix));
+                    Vector2 healthPosition = Vector2.Transform(new Vector2(10, 10), Matrix.Invert(game._viewMatrix));
+                    Vector2 scorePosition = Vector2.Transform(new Vector2(10, 40), Matrix.Invert(game._viewMatrix));
+                    Vector2 testPosition = Vector2.Transform(new Vector2(10, 70), Matrix.Invert(game._viewMatrix));
 
                     spriteBatch.DrawString(spriteFont, "   Vidas: " + player.Health.ToString(), healthPosition, Color.Black);
                     spriteBatch.DrawString(spriteFont, $"    {game.currScore} / {game.totalScore} Pontos", scorePosition, Color.Black);

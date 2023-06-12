@@ -16,6 +16,7 @@ using MonoGame.Extended.Timers;
 using Microsoft.Xna.Framework.Content;
 using System.ComponentModel.Design;
 using Newtonsoft.Json.Linq;
+using MyMonogameTest.Powers;
 
 enum AnimationState
 {
@@ -117,7 +118,7 @@ namespace MyMonogameTest.Sprites
         private float interval = 0;
 
         // Before changing animation, waits to finish current static animation
-        private bool inStaticAnimation = false;
+        public bool inStaticAnimation = false;
 
         #endregion
 
@@ -280,6 +281,9 @@ namespace MyMonogameTest.Sprites
                     }
                 }
             }
+
+
+            PowerManager.portal(gameTime, game, this, sprites, spritesToAdd);
         }
 
         public void Move(GameTime gameTime, List<Sprite> spritesToAdd)
@@ -378,7 +382,7 @@ namespace MyMonogameTest.Sprites
                     (game.level == 1 && mouseState.Y < (100 * (game.scalingFactor + 0.4f * game.scalingFactor - 0.4f))) ?
                                             100 * (game.scalingFactor + 0.4f * game.scalingFactor - 0.4f) :
                                             mouseState.Y);
-                direction = mousePosition - Position-Origin;
+                direction = mousePosition - Position - Origin;
                 mouseMoveState = MouseMoveState.Moving;
             }
 
@@ -458,7 +462,7 @@ namespace MyMonogameTest.Sprites
             return direction;
         }
 
-        private void ChangeAnimationState(AnimationState animationState)
+        public void ChangeAnimationState(AnimationState animationState)
         {
             //Update Frames Per Second
             switch (animationState)

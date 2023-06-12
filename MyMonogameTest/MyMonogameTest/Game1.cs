@@ -14,6 +14,7 @@ using MyMonogameTest.Levels;
 using MonoGame.Extended.Screens.Transitions;
 using System.ComponentModel;
 using Microsoft.Xna.Framework.Media;
+using MyMonogameTest.Powers;
 
 namespace MyMonogameTest
 {
@@ -22,10 +23,14 @@ namespace MyMonogameTest
         public GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        public Matrix _viewMatrix;
+
         public int ScreenWidth;
         public int ScreenHeight;
         //public float ZoomLevel = 2f;
         public float ZoomLevel = 2f;
+
+        public bool usingMouseMovement;
 
         public int totalScore = 10;
         public int currScore = 0;
@@ -81,6 +86,9 @@ namespace MyMonogameTest
         protected override void LoadContent()
         {
             music = Content.Load<Song>("music");
+
+            //powers
+            PowerManager.portalTex = Content.Load<Texture2D>("portal");
 
             //to draw
             spriteBatch = new SpriteBatch(GraphicsDevice);
