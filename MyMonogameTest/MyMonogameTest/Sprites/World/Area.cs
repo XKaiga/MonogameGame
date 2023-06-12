@@ -20,7 +20,12 @@ namespace MyMonogameTest.Sprites.World
         buttonExit,
         buttonHelp,
         buttonOptions,
-        buttonBack
+        buttonBack,
+        buttonLvl1,
+        buttonLvl2,
+        buttonLvl3,
+        buttonLvl4,
+        buttonLvlBonus
     }
 
     class Area : Sprite
@@ -83,6 +88,27 @@ namespace MyMonogameTest.Sprites.World
                         case AreaType.buttonBack:
                             game.level = -2;
                             game.ChangeLevel();
+                            break;
+
+                        case AreaType.buttonLvl1:
+                            game.level = 0;
+                            game.ChangeLevel();
+                            break;
+                        case AreaType.buttonLvl2:
+                            game.level = 1;
+                            game.ChangeLevel();
+                            break;
+                        case AreaType.buttonLvl3:
+                            game.level = 2;
+                            //game.ChangeLevel();
+                            break;
+                        case AreaType.buttonLvl4:
+                            game.level = 3;
+                            //game.ChangeLevel();
+                            break;
+                        case AreaType.buttonLvlBonus:
+                            game.level = 4;
+                            //game.ChangeLevel();
                             break;
                     }
                 }

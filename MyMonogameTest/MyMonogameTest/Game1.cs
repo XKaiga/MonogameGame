@@ -40,7 +40,7 @@ namespace MyMonogameTest
         private ScreenManager screenManager;
 
         //public int level = -2;
-        public int level = -2;
+        public int level = -1;
         private bool hKeyPressed = false;
 
         public float scalingFactor = 1;
@@ -57,8 +57,8 @@ namespace MyMonogameTest
             screenManager = new ScreenManager();
             Components.Add(screenManager);
 
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height; //pega altura do pc atual i think
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width; //pega largura do pc atual i think
+            //graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height; //pega altura do pc atual i think
+            //graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width; //pega largura do pc atual i think
 
             ScreenWidth = graphics.PreferredBackBufferWidth;
             ScreenHeight = graphics.PreferredBackBufferHeight;

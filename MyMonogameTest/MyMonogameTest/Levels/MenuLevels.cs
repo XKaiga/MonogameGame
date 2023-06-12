@@ -5,6 +5,7 @@ using MonoGame.Extended.Screens;
 using MyMonogameTest.Sprites;
 using MyMonogameTest.Sprites.World;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace MyMonogameTest.Levels
 {
@@ -37,16 +38,27 @@ namespace MyMonogameTest.Levels
             level3 = Content.Load<Texture2D>("16");
             level4 = Content.Load<Texture2D>("17");
             levelBonus = Content.Load<Texture2D>("18");
+
+            var title = new Sprite(levelMenu);
+            title.Rectangle = new Rectangle(game.ScreenWidth / 4, 0, game.ScreenWidth/2, game.ScreenHeight/6);
+            title.Position = new Vector2(title.Rectangle.X, title.Rectangle.Y);
+
+            var lvlY = game.ScreenHeight / 1.6f * game.scalingFactor;
+            var lvlWidth = (int)(175 * game.scalingFactor);
+            var lvlHeight = (int)(50 * game.scalingFactor);
+
+            var firstLvlX = game.ScreenWidth / 30f * game.scalingFactor;
+
             //all "objects"
             _sprites = new List<Sprite>()
             {
                 new Fundo(fundo,game),
-                new Sprite(levelMenu),
-                new Sprite(level1),
-                new Sprite(level2),
-                new Sprite(level3),
-                new Sprite(level4), 
-                new Sprite(levelBonus)
+                title,
+                new Area(level1,game,new Vector2(firstLvlX,lvlY),lvlWidth,lvlHeight,AreaType.buttonLvl1),
+                new Area(level2,game,new Vector2(firstLvlX+lvlWidth,game.ScreenHeight / 1.57f * game.scalingFactor),lvlWidth,lvlHeight,AreaType.buttonLvl2),
+                new Area(level3,game,new Vector2(firstLvlX+lvlWidth*2,lvlY),lvlWidth,(int)(60 * game.scalingFactor),AreaType.buttonLvl3),
+                new Area(level4,game,new Vector2(firstLvlX+lvlWidth*3,game.ScreenHeight / 1.57f * game.scalingFactor),lvlWidth,lvlHeight,AreaType.buttonLvl4),
+                new Area(levelBonus,game,new Vector2(title.Position.X, game.ScreenHeight/1.01f-title.Rectangle.Height),title.Rectangle.Width,title.Rectangle.Height,AreaType.buttonLvlBonus)
             };
             foreach (var sprite in _sprites)
                 sprite.LoadContent();
@@ -56,7 +68,12 @@ namespace MyMonogameTest.Levels
 
         public override void Update(GameTime gameTime)
         {
-
+            List<Sprite> spritesToAdd = new List<Sprite>();
+            foreach (var sprite in _sprites)
+            {
+                //update all sprites
+                sprite.Update(gameTime, _sprites, spritesToAdd);
+            }
         }
 
         public override void Draw(GameTime gameTime)
