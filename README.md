@@ -1,61 +1,29 @@
 # MonogameGame
+# The adventures of the octocat
+André Jardin,nº25978
+Sara Silva, nº25973
+Hélder Rodrigues, nº25958
 A game made in Monogame
-
-## Andre:
-### Doing:
-    ?
-
-### To do:
-    menus/telas(buttons, design, art, etc...):
-        main menu(name of the game, buttons[start/exit]);
-        options menu(input box, buttons[exit/apply/cancel]);
-        help menu & help buttom(decide where to put it: main menu or options menu);
-        level menu(various planets, each is a level);
-        tela final(buttons[main menu]);
-	tela de creditos;
-    music(which music(a loop music) and maybe how to implement(it's easy i think));
-    Level Design(onde é que tem plataformas e etc..., e onde os poderes estão escondidos, basicamente os mapas dos niveis);
-
-## Helder:
-### Doing:
-	➢ Deverão existir inimigos com movimento autónomo;
-
-## Sara:
-### Doing:
-	➢ Som;
-
-
-# To Do:
-	Class Level Manager: para fazer o jogador ir de nivel a nivel;
-	sistema de save para 'guardar e sair do jogo';	
-	extra i think: plataformas que se mexem;
+# Mecânicas
+O nosso jogo tem 2 tipos de nível: nível com movimento do rato e nível com movimento através do teclado em que é possivel usar o poder de teletransporte apartir do clique do rato a cada 20 segundos.
+Infelizmente não conseguimos acabar o nosso jogo. Era suposto ter 5 níveis e conseguimos fazer 3. Em cada nível o jogador desbloqueia um poder, os níveis não têm necessariamente ordem, apartir do momento que desbloqueia o poder este pode ser usado nos outros níveis. 
+#Código 
+Class Level Manager: para fazer o jogador ir de nivel a nivel;
+Temos:
 	enemy ai;
-	posição das minas:
-		90,330
-		240,170
-		435,240
-		680,360
-	[powers]:
-		buble shield(position = player_position, tranparency = ?%, collision with enemyWeapon);
-		portal(idea: can only have two portals on the map, code: if exists 2 portals when player touches one teleports to the other(player.position = ?);
-		air(pushes enemy, code: if in collision with enemy, dependendo de que lado vem manda y ou x para -valor);
-	pedra com lava, se player toca leva dano a cada ?secs;
-
-# Needs to be Done:
-	➢ "O jogo não poderá estar limitado ao tamanho da janela do Monogame"(already done kinda, yhe);
-	➢ "colisões"(already done kinda, yhe);
-	Extra:
-		• Diferentes tipos de inimigos;
-		• Menus/créditos;
-		• Sistema de HighScore;
-		• A jogabilidade;
-		• Correta estruturação modular do jogo desenvolvido;
-
+	animação;
+	colisões,
+	som;
+	menus;
+	
+##Powers implementados
+	portal;
+	poder de pedra;
 
 ## Levels:
-### level1(water):
+### level1(water)(feito):
     objetivo:
-        pergar todas as coisinhas, quando pega todas no fim do mapa aparece uma seta e ai o player pode ir para o final da tela e sair do nivel
+        pergar todos os coraçoes
     dificuldades:
         anda com um freio muito fraco, e tem umas minas aquaticas pelo mapa, que precisamos de desviar
     mundo(estilo/graficamente/tema):
@@ -65,29 +33,32 @@ A game made in Monogame
         movimentar o personagem com o rato;
         anda livremente;
 
-### level2(fire):
+### level2(earth)(feito):
     objetivo:
-        pergar todas as coisinhas, quando pega todas no fim do mapa aparece uma seta e ai o player pode ir para o final da tela e sair do nivel
-    dificuldades:
-        rochas a cair do ceu por causa do vulcão;
-    mundo(estilo/graficamente/tema):
-        vulcão
-    mecânicas:
-        plataformas
-
-### level3(earth):
-    objetivo:
-        pergar todas as coisinhas, quando pega todas no fim do mapa aparece uma seta e ai o player pode ir para o final da tela e sair do nivel
+        pergar todos os coraçoes
     dificuldades:
         polvo rocho que vai atras do player, e player foge;
     mundo(estilo/graficamente/tema):
         floresta;
     mecânicas:
         plataformas;
-
-### level4(air):
+	
+	
+### level3(fire)(feito):
     objetivo:
-        pergar todas as coisinhas, quando pega todas no fim do mapa aparece uma seta e ai o player pode ir para o final da tela e sair do nivel
+        pergar 10 coraçoes
+    dificuldades:
+        2 tipos de en imigos: 2 a disparar e um a disparar e a perseguir, não pode tocar no chão
+    mundo(estilo/graficamente/tema):
+        vulcão
+    mecânicas:
+        plataformas
+
+
+
+### level4(air)(por fazer):
+    objetivo:
+        pergar todos os corações
     dificuldades:
         polvo vermelho, fica fora do ecra a disparar contra o player;
     mundo(estilo/graficamente/tema):
