@@ -7,7 +7,7 @@ A game made in Monogame
 # Mecânicas
 O nosso jogo tem 2 tipos de nível: nível com movimento do rato e nível com movimento através do teclado em que é possivel usar o poder de teletransporte apartir do clique do rato a cada 20 segundos.
 Infelizmente não conseguimos acabar o nosso jogo. Era suposto ter 5 níveis e conseguimos fazer 3. Em cada nível o jogador desbloqueia um poder, os níveis não têm necessariamente ordem, apartir do momento que desbloqueia o poder este pode ser usado nos outros níveis. 
-#Código 
+# Código 
 Class Level Manager: para fazer o jogador ir de nivel a nivel;
 Temos:
 	enemy ai;
@@ -16,7 +16,7 @@ Temos:
 	som;
 	menus;
 	
-##Powers implementados
+## Powers implementados
 	portal;
 	poder de pedra;
 
