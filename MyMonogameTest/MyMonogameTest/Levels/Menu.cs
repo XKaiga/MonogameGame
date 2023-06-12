@@ -42,10 +42,10 @@ namespace MyMonogameTest.Levels
             _sprites = new List<Sprite>()
             {
                 new Fundo(fundo,game),
-                new Area(play,game,new Vector2(game.ScreenWidth/1.5f,game.ScreenHeight/3f),(int)(350*scalingFactor),(int)(100*scalingFactor),AreaType.buttonPlay),
-                new Area(exit,game,new Vector2(0,game.ScreenHeight/1.7f),(int)(350*scalingFactor),(int)(100*scalingFactor),AreaType.buttonExit),
-                new Area(help, game,new Vector2(game.ScreenWidth/6,game.ScreenHeight/4),(int)(350 * scalingFactor), (int)(100 * scalingFactor),AreaType.buttonHelp),
-                new Area(options, game,new Vector2(game.ScreenWidth/7,game.ScreenHeight/5),(int)(350 * scalingFactor), (int)(100 * scalingFactor),AreaType.buttonOptions)
+                new Area(play,game,new Vector2(game.ScreenWidth/1.65f*scalingFactor,game.ScreenHeight/3f*scalingFactor),(int)(350*scalingFactor),(int)(100*scalingFactor),AreaType.buttonPlay),
+                new Area(exit,game,new Vector2(0,game.ScreenHeight/1.8f*scalingFactor),(int)(350*scalingFactor),(int)(100*scalingFactor),AreaType.buttonExit),
+                new Area(help, game,new Vector2(game.ScreenWidth/12.75f*scalingFactor,game.ScreenHeight/4.2f*scalingFactor),(int)(350 * scalingFactor), (int)(100 * scalingFactor),AreaType.buttonHelp),
+                new Area(options, game,new Vector2(game.ScreenWidth/3.65f*scalingFactor,game.ScreenHeight/2.25f*scalingFactor),(int)(350 * scalingFactor), (int)(100 * scalingFactor),AreaType.buttonOptions)
             };
             foreach (var sprite in _sprites)
                 sprite.LoadContent();
